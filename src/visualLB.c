@@ -13,7 +13,7 @@ void writeVtkOutput(const double * const collideField, const int * const flagFie
     double density;
     double velocity[3];
     double* currentCell;
-    int xl2 = xlength*xlength;
+    int xl2 = (xlength+2)*(xlength+2);
     int idx;
     
     // Open File
@@ -40,7 +40,7 @@ void writeVtkOutput(const double * const collideField, const int * const flagFie
     for(z = 1; z <= xlength; z++){
         for(y = 1; y <= xlength; y++) {
             for(x = 1; x <= xlength; x++) {
-                idx = (z*xl2 + y*xlength + x);
+                idx = (z*xl2 + y*(xlength+2) + x);
                 if (flagField[idx]%2==0){
                     currentCell = &collideField[Q*idx];
                     computeDensity(currentCell, &density);

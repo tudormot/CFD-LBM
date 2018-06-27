@@ -28,14 +28,10 @@ static const int LATTICEVELOCITIES[19][3] = {
     
 };
 
-#define c0  12.0/36.0 // TODO: Tudor will complain replace c2, c1, c0 with expression in LATTICEWEIGHTS
-#define c1  2.0/36.0
-#define c2  1.0/36.0
-
-static const double LATTICEWEIGHTS[19] = {c2, c2, c1, c2, c2,
-                                          c2, c1, c2, c1, c0, 
-                                          c1, c2, c1, c2, c2, 
-                                          c2, c1, c2, c2};
+static const double LATTICEWEIGHTS[19] = {1.0/36.0, 1.0/36.0, 2.0/36.0, 1.0/36.0, 1.0/36.0,
+                                          1.0/36.0, 2.0/36.0, 1.0/36.0, 2.0/36.0, 12.0/36.0, 
+                                          2.0/36.0, 1.0/36.0, 2.0/36.0, 1.0/36.0, 1.0/36.0, 
+                                          1.0/36.0, 2.0/36.0, 1.0/36.0, 1.0/36.0};
     
 static const double C_S = 1.0/1.73205; // 1.73205 is estimated sqrt(3)
 #endif
