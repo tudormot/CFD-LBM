@@ -28,7 +28,7 @@ static const int LATTICEVELOCITIES[19][3] = {
     
 };
 
-#define c0  12.0/36.0 // TODO: Tudor will complain...
+#define c0  12.0/36.0 // TODO: Tudor will complain replace c2, c1, c0 with expression in LATTICEWEIGHTS
 #define c1  2.0/36.0
 #define c2  1.0/36.0
 
