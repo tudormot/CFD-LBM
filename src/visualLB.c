@@ -16,10 +16,11 @@ void writeVtkOutput(const double * const collideField, const unsigned int * cons
     int xl2 = (xlength+2)*(xlength+2);
     int idx;
     
+
     // Open File
     char szFileName[256];
     FILE *fp=NULL;
-    sprintf( szFileName, "%s.%i.vtk", filename, t);
+    sprintf( szFileName, "Output/Out_%i.vtk", t);
     fp = fopen( szFileName, "w");
     if( fp == NULL ){
         char szBuff[256];
@@ -33,7 +34,7 @@ void writeVtkOutput(const double * const collideField, const unsigned int * cons
     write_vtkPointCoordinates(fp, xlength);
     
     // Write Velocities
-    fprintf(fp, "POINT_DATA %i \n", xlength*xlength);
+    fprintf(fp, "\nPOINT_DATA %i \n", xlength*xlength*xlength);
     fprintf(fp,"\n");
     fprintf(fp, "VECTORS velocity float\n");
     

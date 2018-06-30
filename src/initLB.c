@@ -13,7 +13,9 @@ int readParameters(int *xlength, double *tau, double *velocityWall, unsigned int
 
 	read_int( argv[1], "xlength", xlength);
 	read_double( argv[1], "tau", tau);
-	read_double( argv[1], "velocityWall", velocityWall);
+	read_double( argv[1], "xvelocityWall", &velocityWall[0]);
+	read_double( argv[1], "yvelocityWall", &velocityWall[1]);
+	read_double( argv[1], "zvelocityWall", &velocityWall[2]);
 	read_int( argv[1], "timesteps", (int *)timesteps);
 	read_int( argv[1], "timestepsPerPlotting", (int *)timestepsPerPlotting);
 
