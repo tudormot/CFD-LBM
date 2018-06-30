@@ -28,15 +28,18 @@ void initialiseFields(double *collideField, double *streamField, unsigned int *f
 
     /* first initialise collideField and streamField: */
 	/* also initialise the fluid cell flags in this for loop nest for efficiency*/
+	int xl = xlength+2;
+	int xl2 = xl*xl;
+	
 	for(int i = 1;i<=xlength;i++)
 		for(int j = 1; j<=xlength;j++)
 			for(int k = 1; k<=xlength;k++)
 			{
-				flagField[i*xlength*xlength + j*xlength + k] = FLUID;
+				flagField[i*xl2 + j*xl + k] = FLUID;
 				for(int l = 0;l<NO_OF_LATTICE_DIMENSIONS;l++)
 				{
-					collideField[NO_OF_LATTICE_DIMENSIONS*(i*xlength*xlength + j*xlength + k) + l]=LATTICEWEIGHTS[l];
-					streamField[NO_OF_LATTICE_DIMENSIONS*(i*xlength*xlength + j*xlength + k) + l]=LATTICEWEIGHTS[l];
+					collideField[NO_OF_LATTICE_DIMENSIONS*(i*xl2 + j*xl + k) + l]=LATTICEWEIGHTS[l];
+					streamField[NO_OF_LATTICE_DIMENSIONS*(i*xl2 + j*xl + k) + l]=LATTICEWEIGHTS[l];
 				}
 			}
 
@@ -46,21 +49,21 @@ void initialiseFields(double *collideField, double *streamField, unsigned int *f
 		for(int j = 0 ;j<=xlength+1;j++)
 		{
 			/*the lid of our cavity (top face) need to be set to moving wall*/
-			flagField[i*xlength + j] = MOV_WALL;
+			flagField[i*xl + j] = NO_SLIP;
 			/*set bottom of cavity to no slip*/
-			flagField[(xlength+1)*xlength*xlength+i*xlength + j] = NO_SLIP;
+			flagField[(xlength+1)*xl2+i*xl + j] = MOV_WALL;
 		}
 	for(int k = 1;k<=xlength;k++)
 		for(int i = 0;i<=xlength+1;i++)
 		{
-			flagField[k*xlength*xlength+ i] = NO_SLIP;
-			flagField[k*xlength*xlength+(xlength+1)*xlength + i] = NO_SLIP;
+			flagField[k*xl2 + i] = NO_SLIP;
+			flagField[k*xl2+(xlength+1)*xl + i] = NO_SLIP;
 		}
 	for(int k = 1;k<=xlength;k++)
 		for(int j = 1;j<=xlength;j++) //indices set so there is no overlapping, in case debugging is needed for loops could also overlap
 		{
-			flagField[k*xlength*xlength + j*xlength + 0] = NO_SLIP;
-			flagField[k*xlength*xlength + j*xlength + (xlength +1)] = NO_SLIP;
+			flagField[k*xl2 + j*xl + 0] = NO_SLIP;
+			flagField[k*xl2 + j*xl + (xlength +1)] = NO_SLIP;
 		}
 
 	/*finally set boundary values as well*/

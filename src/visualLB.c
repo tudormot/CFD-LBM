@@ -15,7 +15,6 @@ void writeVtkOutput(const double * const collideField, const unsigned int * cons
     const double* currentCell;
     int xl2 = (xlength+2)*(xlength+2);
     int idx;
-    
 
     // Open File
     char szFileName[256];
