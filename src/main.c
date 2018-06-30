@@ -11,6 +11,7 @@
 
 int main(int argc, char *argv[]){
     
+    /*declarations*/
     double *collideField=NULL;
     double *streamField=NULL;
     unsigned int *flagField=NULL;
@@ -21,9 +22,12 @@ int main(int argc, char *argv[]){
     unsigned int timestepsPerPlotting;
     double* vel;
     
+    /*read parameters*/
+    printf("=================================================================\n");
+    printf("\nSIMULATION PARAMETERS:\n\n");
     readParameters(&xlength,&tau,velocityWall,&timesteps,&timestepsPerPlotting,argc, argv);
     
-    // Remove old results
+    /*remove old results*/
     system("rm -rf Output");
     system("mkdir Output");
     printf("\n");
@@ -35,30 +39,43 @@ int main(int argc, char *argv[]){
     flagField = (unsigned int*) malloc(sizeof(int) * temp);
     vel = (double*)malloc(sizeof(double)*temp*3);
     
-    /*initialization of Fields and printing*/
+    /*initialization of fields*/
     initialiseFields(collideField,streamField,flagField,xlength, velocityWall);
-  //  writeVtkOutput(collideField,flagField,argv[0],0,xlength, vel);
     
+    /*now start the calculation: */
+    printf("=================================================================\n");
+    printf("\nCOMPUTING...\n\n");
     for(int t = 1; t <= timesteps; t++){
+        
+        /*stream and put the results in collideField vector */
         double *swap=NULL;
         doStreaming(collideField,streamField,flagField,xlength);
         swap = collideField;
         collideField = streamField;
         streamField = swap;
         
+        /*collide*/
         doCollision(collideField,flagField,&tau,xlength,vel);
+        
+        /*apply boundary conditions*/
         treatBoundary(collideField,flagField,velocityWall,xlength);
         
+        /*write output and print progress to console*/
         if (t%timestepsPerPlotting==0){
             writeVtkOutput(collideField,flagField,argv[0],t,xlength, vel);
-            printf("t = %3d/%d, (%.1f%%)\n",t,timesteps, 100.0*t/timesteps);
+            printf("t = %4d/%d (%.1f%% completed)\n",t,timesteps, 100.0*t/timesteps);
         }
     }
+    
     /*free up memory*/
     free(collideField);
     free(streamField);
     free(flagField);
     free(vel);
+    
+    printf("\n=================================================================\n");
+    printf("SIMULATION ENDED SUCCESFULLY");
+	printf("\n=================================================================\n");
     return 0;
 }
 

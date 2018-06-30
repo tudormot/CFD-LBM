@@ -11,7 +11,7 @@ void computePostCollisionDistribution(double *currentCell, const double * const 
 }
 
 void doCollision(double *collideField, unsigned int *flagField,const double * const tau,int xlength, double* vel){
-  /* TODO */
+  
 	int Q = 19;	 // TODO: Q is hardcoded;
 	double density;
 	double velocity[3];

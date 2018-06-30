@@ -2,18 +2,18 @@
 #include "LBDefinitions.h"
 
 void computeDensity(const double *const currentCell, double *density){
-  /* TODO */
+  
 	int Q = 19; // TODO: again hardcoded
-	*density = 0; // reset density, before summing for each cell
+	(*density) = 0; // reset density, before summing for each cell
 
 	for(int i = 0; i < Q; ++i){
-		*density += currentCell[i];
+		(*density) += currentCell[i];
 	}
 }
 
 void computeVelocity(const double * const currentCell, const double * const density, double *velocity){
-  /* TODO */
-	double product[3] = {0,0,0}; // reset f*c_i product before new cell calculation
+  
+  	double product[3] = {0,0,0}; // reset f*c_i product before new cell calculation
 	int Q = 19;
 	for(int i = 0; i < Q; ++i){
 		product[0] += currentCell[i]*LATTICEVELOCITIES[i][0];
@@ -29,7 +29,7 @@ void computeVelocity(const double * const currentCell, const double * const dens
 }
 
 void computeFeq(const double * const density, const double * const velocity, double *feq){
- /* TODO */
+ 
 	int Q = 19; //TODO: hardcoded again -> move it to LBDefinitions(?)
 	int cu; // dot product of lattice velocity and velocity
 	int cu2; // cu squared;
