@@ -31,9 +31,9 @@ void initialiseFields(double *collideField, double *streamField, unsigned int *f
 	int xl = xlength+2;
 	int xl2 = xl*xl;
 	
-	for(int i = 1;i<=xlength;i++)
-		for(int j = 1; j<=xlength;j++)
-			for(int k = 1; k<=xlength;k++)
+	for(int i = 0;i<=xlength+1;i++)
+		for(int j = 0; j<=xlength+1;j++)
+			for(int k = 0; k<=xlength+1;k++)
 			{
 				flagField[i*xl2 + j*xl + k] = FLUID;
 				for(int l = 0;l<NO_OF_LATTICE_DIMENSIONS;l++)
@@ -45,6 +45,19 @@ void initialiseFields(double *collideField, double *streamField, unsigned int *f
 
 	/*Now initialise flag field on the boundaries*/
 
+	
+	for(int k = 0;k<=xlength+1;k++)
+		for(int i = 0;i<=xlength+1;i++)
+		{
+			flagField[k*xl2 + i] = NO_SLIP;
+			flagField[k*xl2+(xlength+1)*xl + i] = NO_SLIP;
+		}
+	for(int k = 0;k<=xlength+1;k++)
+		for(int j = 0;j<=xlength+1;j++) //indices set so there is no overlapping, in case debugging is needed for loops could also overlap
+		{
+			flagField[k*xl2 + j*xl + 0] = NO_SLIP;
+			flagField[k*xl2 + j*xl + (xlength +1)] = NO_SLIP;
+		}
 	for(int i = 0 ;i<=xlength+1;i++)
 		for(int j = 0 ;j<=xlength+1;j++)
 		{
@@ -53,21 +66,6 @@ void initialiseFields(double *collideField, double *streamField, unsigned int *f
 			/*set bottom of cavity to no slip*/
 			flagField[(xlength+1)*xl2+i*xl + j] = MOV_WALL;
 		}
-	for(int k = 1;k<=xlength;k++)
-		for(int i = 0;i<=xlength+1;i++)
-		{
-			flagField[k*xl2 + i] = NO_SLIP;
-			flagField[k*xl2+(xlength+1)*xl + i] = NO_SLIP;
-		}
-	for(int k = 1;k<=xlength;k++)
-		for(int j = 1;j<=xlength;j++) //indices set so there is no overlapping, in case debugging is needed for loops could also overlap
-		{
-			flagField[k*xl2 + j*xl + 0] = NO_SLIP;
-			flagField[k*xl2 + j*xl + (xlength +1)] = NO_SLIP;
-		}
-
-	/*finally set boundary values as well*/
-	treatBoundary(collideField,flagField,wallVelocity,xlength);
-
+	
 }
 

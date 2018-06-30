@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 void computePostCollisionDistribution(double *currentCell, const double * const tau, const double *const feq){
-  /* TODO */
+  
 	int Q = 19; // TODO: again...
 
 	for(int i = 0; i < Q; ++i){
@@ -11,7 +11,7 @@ void computePostCollisionDistribution(double *currentCell, const double * const 
 }
 
 void doCollision(double *collideField, unsigned int *flagField,const double * const tau,int xlength, double* vel){
-  /* TODO */
+  
 	int Q = 19;	 // TODO: Q is hardcoded;
 	double density;
 	double velocity[3];
@@ -21,16 +21,15 @@ void doCollision(double *collideField, unsigned int *flagField,const double * co
 	int xl2 = (xlength+2)*(xlength+2); // index corrected (worksheet was wrong (?))
 
 
-	for(int z=0; z <= xlength+1; ++z)
-		for(int y=0; y <= xlength+1; ++y)
-			for(int x=0; x <= xlength+1; ++x){ // x is last for efficiency (cache)
+	for(int z=1; z <= xlength; ++z)
+		for(int y=1; y <= xlength; ++y)
+			for(int x=1; x <= xlength; ++x){ // x is last for efficiency (cache)
 
 
 				if( flagField[z*xl2 + y*(xlength+2) + x] == 0){ // index corrected
 					currentCell = &collideField[Q*(z*xl2 + y*(xlength+2) + x) + i];
 					computeDensity(currentCell, &density);
 					computeVelocity(currentCell, &density, velocity);
-             //       printf("velociy: %f %f\n", velocity[0], velocity[1]);
 
 					vel[3*(z*xl2 + y*(xlength+2) + x) + 0] = velocity[0];
 					vel[3*(z*xl2 + y*(xlength+2) + x) + 1] = velocity[1];
