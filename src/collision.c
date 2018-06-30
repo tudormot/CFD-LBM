@@ -1,4 +1,5 @@
 #include "collision.h"
+#include <stdio.h>
 
 void computePostCollisionDistribution(double *currentCell, const double * const tau, const double *const feq){
   /* TODO */
@@ -9,7 +10,7 @@ void computePostCollisionDistribution(double *currentCell, const double * const 
 	}
 }
 
-void doCollision(double *collideField, unsigned int *flagField,const double * const tau,int xlength){
+void doCollision(double *collideField, unsigned int *flagField,const double * const tau,int xlength, double* vel){
   /* TODO */
 	int Q = 19;	 // TODO: Q is hardcoded;
 	double density;
@@ -29,6 +30,13 @@ void doCollision(double *collideField, unsigned int *flagField,const double * co
 					currentCell = &collideField[Q*(z*xl2 + y*(xlength+2) + x) + i];
 					computeDensity(currentCell, &density);
 					computeVelocity(currentCell, &density, velocity);
+             //       printf("velociy: %f %f\n", velocity[0], velocity[1]);
+
+					vel[3*(z*xl2 + y*(xlength+2) + x) + 0] = velocity[0];
+					vel[3*(z*xl2 + y*(xlength+2) + x) + 1] = velocity[1];
+					vel[3*(z*xl2 + y*(xlength+2) + x) + 2] = velocity[2];
+
+
 					computeFeq(&density, velocity, feq);
 					computePostCollisionDistribution(currentCell, tau, feq);
 				}
