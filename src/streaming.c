@@ -1,7 +1,7 @@
 #include "streaming.h"
 #include "LBDefinitions.h"
 
-void doStreaming(double *collideField, double *streamField,int *flagField,int xlength){
+void doStreaming(double *collideField, double *streamField,unsigned int *flagField,int xlength){
 
 	//TODO: if code is too slow this function is a good candidate for changing, as it could be rewritten without the if..
 	int x_dest, y_dest, z_dest; //coordinates of destination cell

@@ -14,23 +14,24 @@ int main(int argc, char *argv[]){
     
     double *collideField=NULL;
     double *streamField=NULL;
-    int *flagField=NULL;
+    unsigned int *flagField=NULL;
     int xlength;
     double tau;
     double velocityWall[3];
-    int timesteps;
-    int timestepsPerPlotting;
+    unsigned int timesteps;
+    unsigned int timestepsPerPlotting;
     
     readParameters(
-        &xlength,&tau,&velocityWall,&timesteps,&timestepsPerPlotting,argc, argv
+        &xlength,&tau,velocityWall,&timesteps,&timestepsPerPlotting,argc, argv
     );
     
     /*memory allocation of required arrays and initialization:*/
-    int temp = NO_OF_LATTICE_DIMENSIONS * (int)pow((double)(xlength+2),(double)NO_OF_DIMENSIONS); //(xlength + 2)^D
+  //  int temp = NO_OF_LATTICE_DIMENSIONS * (int)pow((double)(xlength+2),(double)NO_OF_DIMENSIONS); //(xlength + 2)^D
+    int temp = (xlength+2) * (xlength+2) * (xlength+2);
     collideField = (double*) malloc(sizeof(double) * temp * NO_OF_LATTICE_DIMENSIONS);
     streamField = (double*) malloc(sizeof(double) * temp * NO_OF_LATTICE_DIMENSIONS);
-    flagField = (int*) malloc(sizeof(int) * temp);
-    initialiseFields(collideField,streamField,flagField,xlength);
+    flagField = (unsigned int*) malloc(sizeof(int) * temp);
+    initialiseFields(collideField,streamField,flagField,xlength, velocityWall);
     
     for(int t = 0; t < timesteps; t++){
         double *swap=NULL;
@@ -43,7 +44,7 @@ int main(int argc, char *argv[]){
         treatBoundary(collideField,flagField,velocityWall,xlength);
         
         if (t%timestepsPerPlotting==0){
-            writeVtkOutput(collideField,flagField,argv,t,xlength);
+            writeVtkOutput(collideField,flagField,*argv,t,xlength);
         }
     }
     /*free up memory*/

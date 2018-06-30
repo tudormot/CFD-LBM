@@ -1,5 +1,6 @@
 #include "initLB.h"
 #include "LBDefinitions.h"
+#include "boundary.h"
 
 int readParameters(int *xlength, double *tau, double *velocityWall, unsigned int *timesteps, unsigned int *timestepsPerPlotting, int argc, char *argv[]){
 

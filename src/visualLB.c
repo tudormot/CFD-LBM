@@ -1,25 +1,25 @@
 #include "visualLB.h"
 #include "helper.h"
-#include <stdio.h>
 #include "LBDefinitions.h"
 #include <math.h>
 #include "computeCellValues.h"
 
-void writeVtkOutput(const double * const collideField, const int * const flagField, 
+void writeVtkOutput(const double * const collideField, const unsigned int * const flagField,
                     const char* filename, int t, int xlength){
     
-    int x, y, z, i; //Indices for x, y, z and velocity respectively
+    int x, y, z; //Indices for x, y, z and velocity respectively
+   // int i; // commented, because unused
     int Q = 19;
     double density;
     double velocity[3];
-    double* currentCell;
+    const double* currentCell;
     int xl2 = (xlength+2)*(xlength+2);
     int idx;
     
     // Open File
     char szFileName[256];
     FILE *fp=NULL;
-    sprintf( szFileName, "%s.%i.vtk", szProblem, t);
+    sprintf( szFileName, "%s.%i.vtk", filename, t);
     fp = fopen( szFileName, "w");
     if( fp == NULL ){
         char szBuff[256];
