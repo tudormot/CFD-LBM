@@ -21,6 +21,6 @@ timestepsPerPlotting	5
 #--------------------------------------------
 #       boundary conditions
 #--------------------------------------------
-xvelocityWall	1.0
+xvelocityWall	5.0
 yvelocityWall	0.0
 zvelocityWall	0.0

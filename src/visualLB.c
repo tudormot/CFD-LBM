@@ -14,6 +14,7 @@ void writeVtkOutput(const double * const collideField, const unsigned int * cons
     double velocity[3];
     const double* currentCell;
     int xl2 = (xlength+2)*(xlength+2);
+    int xl3 = xl2*(xlength+2);
     int idx;
 
     // Open File
@@ -33,13 +34,13 @@ void writeVtkOutput(const double * const collideField, const unsigned int * cons
     write_vtkPointCoordinates(fp, xlength);
     
     // Write Velocities
-    fprintf(fp, "\nPOINT_DATA %i \n", xlength*xlength*xlength);
+    fprintf(fp, "\nPOINT_DATA %i \n", xl3);
     fprintf(fp,"\n");
     fprintf(fp, "VECTORS velocity float\n");
     
-    for(z = 1; z <= xlength; z++){
-        for(y = 1; y <= xlength; y++) {
-            for(x = 1; x <= xlength; x++) {
+    for(z = 0; z <= xlength + 1; z++){
+        for(y = 0; y <= xlength + 1; y++) {
+            for(x = 0; x <= xlength + 1; x++) {
                 idx = (z*xl2 + y*(xlength+2) + x);
                 if (flagField[idx]%2==0){
                     currentCell = &collideField[Q*idx];
@@ -76,20 +77,19 @@ void write_vtkHeader( FILE *fp, int xlength) {
     fprintf(fp,"ASCII\n");
     fprintf(fp,"\n");	
     fprintf(fp,"DATASET STRUCTURED_GRID\n");
-    fprintf(fp,"DIMENSIONS  %i %i %i \n", xlength, xlength, xlength);
-    fprintf(fp,"POINTS %i int\n", xlength*xlength*xlength );
+    fprintf(fp,"DIMENSIONS  %i %i %i \n", xlength+2, xlength+2, xlength+2);
+    fprintf(fp,"POINTS %i int\n", (xlength+2)*(xlength+2)*(xlength+2) );
     fprintf(fp,"\n");
 }
-        
+
 void write_vtkPointCoordinates( FILE *fp, int xlength) {
-    
+
     int x, y, z;
-    for(z = 1; z <= xlength; z++){
-        for(y = 1; y <= xlength; y++) {
-            for(x = 1; x <= xlength; x++) {
+    for(z = 0; z <= xlength+1; z++){
+        for(y = 0; y <= xlength+1; y++) {
+            for(x = 0; x <= xlength+1; x++) {
                 fprintf(fp, "%i %i %i\n", x, y, z );
             }
         }
     }
 }
-        
