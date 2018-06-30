@@ -26,6 +26,7 @@ int main(int argc, char *argv[]){
     // Remove old results
     system("rm -rf Output");
     system("mkdir Output");
+    printf("\n");
     
     /*memory allocation of required arrays*/
     int temp = (xlength+2) * (xlength+2) * (xlength+2);
@@ -50,6 +51,7 @@ int main(int argc, char *argv[]){
         
         if (t%timestepsPerPlotting==0){
             writeVtkOutput(collideField,flagField,argv[0],t,xlength, vel);
+            printf("t = %3d/%d, (%.1f%%)\n",t,timesteps, 100.0*t/timesteps);
         }
     }
     /*free up memory*/

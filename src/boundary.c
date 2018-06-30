@@ -31,8 +31,8 @@ void treatBoundary(double *collideField, unsigned int* flagField, const double *
                         zinv = z + LATTICEVELOCITIES[i][2];
                         
                         if(is_valid(xinv, yinv, zinv, xlength)){ //If the inverse cell is in the boundary or the domain
-                            idxinv = z*xlength2 + y*(xlengthp2) + x; 
-                            if (flagField[idxinv]==0){          //If the inverse cell is fluid
+                            idxinv = zinv*xlength2 + yinv*(xlengthp2) + xinv; 
+                            if (flagField[idxinv]==FLUID){          //If the inverse cell is fluid
                                 collideField[Q*idx+i] = collideField[Q*idxinv+18-i];
                             }
                         }
@@ -47,7 +47,7 @@ void treatBoundary(double *collideField, unsigned int* flagField, const double *
                         zinv = z + LATTICEVELOCITIES[i][2];
                         
                         if(is_valid(xinv, yinv, zinv, xlength)){ //If the inverse cell is in the boundary or the domain
-                            idxinv = z*xlength2 + y*(xlengthp2) + x; 
+                            idxinv = zinv*xlength2 + yinv*(xlengthp2) + xinv; 
                             if (flagField[idxinv]==0){          //If the inverse cell is fluid
                                 
                                 computeDensity(&collideField[Q*idxinv], &density); //Density of the inverse cell
@@ -84,7 +84,7 @@ void treatBoundary(double *collideField, unsigned int* flagField, const double *
                         zinv = z + LATTICEVELOCITIES[i][2];
                         
                         if(is_valid(xinv, yinv, zinv, xlength)){ //If the inverse cell is in the boundary or the domain
-                            idxinv = z*xlength2 + y*(xlengthp2) + x; 
+                            idxinv = zinv*xlength2 + yinv*(xlengthp2) + xinv; 
                             if (flagField[idxinv]==0){          //If the inverse cell is fluid
                                 collideField[Q*idx+i] = collideField[Q*idxinv+18-i];
                             }
@@ -100,7 +100,7 @@ void treatBoundary(double *collideField, unsigned int* flagField, const double *
                         zinv = z + LATTICEVELOCITIES[i][2];
                         
                         if(is_valid(xinv, yinv, zinv, xlength)){ //If the inverse cell is in the boundary or the domain
-                            idxinv = z*xlength2 + y*(xlengthp2) + x; 
+                            idxinv = zinv*xlength2 + yinv*(xlengthp2) + xinv; 
                             if (flagField[idxinv]==0){          //If the inverse cell is fluid
                                 
                                 computeDensity(&collideField[Q*idxinv], &density); //Density of the inverse cell
@@ -137,7 +137,7 @@ void treatBoundary(double *collideField, unsigned int* flagField, const double *
                         zinv = z + LATTICEVELOCITIES[i][2];
                         
                         if(is_valid(xinv, yinv, zinv, xlength)){ //If the inverse cell is in the boundary or the domain
-                            idxinv = z*xlength2 + y*(xlengthp2) + x; 
+                            idxinv = zinv*xlength2 + yinv*(xlengthp2) + xinv; 
                             if (flagField[idxinv]==0){          //If the inverse cell is fluid
                                 collideField[Q*idx+i] = collideField[Q*idxinv+18-i];
                             }
@@ -153,7 +153,7 @@ void treatBoundary(double *collideField, unsigned int* flagField, const double *
                         zinv = z + LATTICEVELOCITIES[i][2];
                         
                         if(is_valid(xinv, yinv, zinv, xlength)){ //If the inverse cell is in the boundary or the domain
-                            idxinv = z*xlength2 + y*(xlengthp2) + x; 
+                            idxinv = zinv*xlength2 + yinv*(xlengthp2) + xinv; 
                             if (flagField[idxinv]==0){          //If the inverse cell is fluid
                                 
                                 computeDensity(&collideField[Q*idxinv], &density); //Density of the inverse cell
