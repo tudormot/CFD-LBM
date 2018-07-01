@@ -31,9 +31,9 @@ void computeVelocity(const double * const currentCell, const double * const dens
 void computeFeq(const double * const density, const double * const velocity, double *feq){
  
 	int Q = 19; //TODO: hardcoded again -> move it to LBDefinitions(?)
-	int cu; // dot product of lattice velocity and velocity
-	int cu2; // cu squared;
-	int uu; // dot product of velocity with itself
+	double cu; // dot product of lattice velocity and velocity
+	double cu2; // cu squared;
+	double uu; // dot product of velocity with itself
 	double cs2 = C_S * C_S; // to avoid squaring in for loop
 	double cs4 = cs2 * cs2; // C_S to the power of 4
 

@@ -1,5 +1,5 @@
 # Results from simulations
-lbsim
+src/lbsim
 *.vtk
 *.log
 .tags

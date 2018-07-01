@@ -6,7 +6,7 @@ xlength		50
 #--------------------------------------------
 #           time steps
 #--------------------------------------------
-timesteps	5000
+timesteps	100
 
 #--------------------------------------------
 #          	relaxation time [0.5, 2.0]
@@ -21,6 +21,6 @@ timestepsPerPlotting	5
 #--------------------------------------------
 #       boundary conditions
 #--------------------------------------------
-xvelocityWall	0.05
+xvelocityWall	0.1
 yvelocityWall	0.0
 zvelocityWall	0.0
