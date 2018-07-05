@@ -9,13 +9,15 @@
 #include "boundary.h"
 #include "LBDefinitions.h"
 
+
+
 int main(int argc, char *argv[]){
     
     /*declarations*/
     double *collideField=NULL;
     double *streamField=NULL;
     unsigned int *flagField=NULL;
-    int xlength;
+    dimensions dim;    //struct that contains the domain dimensions
     double tau;
     double velocityWall[3];
     unsigned int timesteps;
@@ -25,7 +27,7 @@ int main(int argc, char *argv[]){
     /*read parameters*/
     printf("=================================================================\n");
     printf("\nSIMULATION PARAMETERS:\n\n");
-    readParameters(&xlength, &tau,velocityWall, &timesteps, &timestepsPerPlotting, argc, argv);
+    readParameters(&dim,&tau,velocityWall,&timesteps,&timestepsPerPlotting,argc, argv);
     
     /*remove old results*/
     system("rm -rf Output");
@@ -33,17 +35,14 @@ int main(int argc, char *argv[]){
     printf("\n");
     
     /*memory allocation of required arrays*/
-    int size = (xlength+2) * (xlength+2) * (xlength+2);
-    collideField_f = (double*) calloc(size * NO_OF_LATTICE_DIMENSIONS, sizeof(double) );    //Collide field for f
-    streamField_f = (double*) calloc(size * NO_OF_LATTICE_DIMENSIONS, sizeof(double) );    //Stream field for f
-    collideField_g = (double*) calloc(size * NO_OF_LATTICE_DIMENSIONS, sizeof(double) );    //Collide field for g
-    streamField_g = (double*) calloc(size * NO_OF_LATTICE_DIMENSIONS, sizeof(double) );    //Stream field for g
-    flagField = (unsigned int*) calloc(size, sizeof(int));
-    Vels = (double*) calloc(size*3, sizeof(double));
-    Temps = (double*) calloc(size, sizeof(double));
+    int size = (dim.xlen+2) * (dim.ylen+2) * (dim.zlen+2);
+    collideField = (double*) malloc(sizeof(double) * size * NO_OF_LATTICE_DIMENSIONS);
+    streamField = (double*) malloc(sizeof(double) * size * NO_OF_LATTICE_DIMENSIONS);
+    flagField = (unsigned int*) malloc(sizeof(int) * size);
+    vel = (double*)malloc(sizeof(double)*size*3);
     
     /*initialization of fields*/
-    initialiseFields(collideField,streamField,flagField,xlength, velocityWall);
+    initialiseFields(collideField,streamField,flagField,dim, velocityWall);
     
     /*now start the calculation: */
     printf("=================================================================\n");
@@ -52,20 +51,28 @@ int main(int argc, char *argv[]){
         
         /*stream and put the results in collideField vector */
         double *swap=NULL;
-        doStreaming(collideField,streamField,flagField,xlength);
+        doStreaming(collideField,streamField,flagField,dim);
         swap = collideField;
         collideField = streamField;
         streamField = swap;
         
         /*collide*/
+<<<<<<< HEAD
         doCollision(collideField,flagField,&tau,xlength,Vels);
+=======
+        doCollision(collideField,flagField,&tau,dim,vel);
+>>>>>>> heat2
         
         /*apply boundary conditions*/
-        treatBoundary(collideField,flagField,velocityWall,xlength);
+        treatBoundary(collideField,flagField,velocityWall,dim);
         
         /*write output and print progress to console*/
         if (t%timestepsPerPlotting==0){
+<<<<<<< HEAD
             writeVtkOutput(collideField,flagField,argv[0],t,xlength, Vels);
+=======
+            writeVtkOutput(collideField,flagField,argv[0],t,dim, vel);
+>>>>>>> heat2
             printf("t = %4d/%d (%.1f%% completed)\n",t,timesteps, 100.0*t/timesteps);
         }
     }

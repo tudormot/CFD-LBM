@@ -46,7 +46,11 @@ static const int D0 = 3;
 #define NO_SLIP (1)
 #define MOV_WALL (2) //moving wall
 
-
+typedef struct{
+	int xlen;
+	int ylen;
+	int zlen;
+}dimensions;
 
 #endif
     

@@ -1,24 +1,24 @@
 #include "boundary.h"
 #include "computeCellValues.h"
 
-int is_valid(int x, int y, int z, int xlength){
-    return (x >= 0) && (x <= xlength + 1) && (y >= 0) && (y <= xlength + 1) && (z >= 0) && (z <= xlength + 1);
+int is_valid(int x, int y, int z, dimensions dim){
+    return (x >= 0) && (x <= dim.xlen + 1) && (y >= 0) && (y <= dim.ylen + 1) && (z >= 0) && (z <= dim.zlen + 1);
 }
 
-void treatBoundary(double *collideField, unsigned int* flagField, const double * const wallVelocity, int xlength){
+void treatBoundary(double *collideField, unsigned int* flagField, const double * const wallVelocity, dimensions dim){
     
     int x, y, z, xinv, yinv, zinv, idx, idxinv, f;
     int Q = 19;
-    int xl = xlength + 2;
-    int xl2 = (xl)*(xl);
+    int xl = dim.xlen + 2;
+    int xlyl = (xl)*(dim.ylen+2);
     double density, inner;
     
     // z-faces
-    for(z = 0; z <= xlength + 1; z+= (xlength + 1) ){
-        for(y = 0; y <= xlength + 1; y++) {
-            for(x = 0; x <= xlength + 1; x++) {
+    for(z = 0; z <= dim.zlen + 1; z+= (dim.zlen + 1) ){
+        for(y = 0; y <= dim.ylen + 1; y++) {
+            for(x = 0; x <= dim.xlen + 1; x++) {
                 
-                idx = z*xl2 + y*(xl) + x;
+                idx = z*xlyl + y*(xl) + x;
                 
                 f = flagField[idx];
                 switch (f){
@@ -30,8 +30,8 @@ void treatBoundary(double *collideField, unsigned int* flagField, const double *
                         yinv = y + LATTICEVELOCITIES[i][1];
                         zinv = z + LATTICEVELOCITIES[i][2];
                         
-                        if(is_valid(xinv, yinv, zinv, xlength)){ //If the inverse cell is in the boundary or the domain
-                            idxinv = zinv*xl2 + yinv*(xl) + xinv; 
+                        if(is_valid(xinv, yinv, zinv, dim)){ //If the inverse cell is in the boundary or the domain
+                            idxinv = zinv*xlyl + yinv*(xl) + xinv;
                             if (flagField[idxinv]==FLUID){          //If the inverse cell is fluid
                                 collideField[Q*idx+i] = collideField[Q*idxinv+18-i];
                             }
@@ -46,8 +46,8 @@ void treatBoundary(double *collideField, unsigned int* flagField, const double *
                         yinv = y + LATTICEVELOCITIES[i][1];
                         zinv = z + LATTICEVELOCITIES[i][2];
                         
-                        if(is_valid(xinv, yinv, zinv, xlength)){ //If the inverse cell is in the boundary or the domain
-                            idxinv = zinv*xl2 + yinv*(xl) + xinv; 
+                        if(is_valid(xinv, yinv, zinv, dim)){ //If the inverse cell is in the boundary or the domain
+                            idxinv = zinv*xlyl + yinv*(xl) + xinv;
                             if (flagField[idxinv]==0){          //If the inverse cell is fluid
                                 
                                 computeDensity(&collideField[Q*idxinv], &density); //Density of the inverse cell
@@ -67,11 +67,11 @@ void treatBoundary(double *collideField, unsigned int* flagField, const double *
     }
     
     // y-faces
-    for(z = 0; z <= xlength + 1; z++ ){
-        for(y = 0; y <= xlength + 1; y+= (xlength + 1)) {
-            for(x = 0; x <= xlength + 1; x++) {
+    for(z = 0; z <= dim.zlen + 1; z++ ){
+        for(y = 0; y <= dim.ylen + 1; y+= (dim.ylen+ 1)) {
+            for(x = 0; x <= dim.xlen + 1; x++) {
                 
-                idx = z*xl2 + y*(xl) + x;
+                idx = z*xlyl + y*(xl) + x;
                 
                 f = flagField[idx];
                 switch (f){
@@ -83,8 +83,8 @@ void treatBoundary(double *collideField, unsigned int* flagField, const double *
                         yinv = y + LATTICEVELOCITIES[i][1];
                         zinv = z + LATTICEVELOCITIES[i][2];
                         
-                        if(is_valid(xinv, yinv, zinv, xlength)){ //If the inverse cell is in the boundary or the domain
-                            idxinv = zinv*xl2 + yinv*(xl) + xinv; 
+                        if(is_valid(xinv, yinv, zinv, dim)){ //If the inverse cell is in the boundary or the domain
+                            idxinv = zinv*xlyl + yinv*(xl) + xinv;
                             if (flagField[idxinv]==FLUID){          //If the inverse cell is fluid
                                 collideField[Q*idx+i] = collideField[Q*idxinv+18-i];
                             }
@@ -99,8 +99,8 @@ void treatBoundary(double *collideField, unsigned int* flagField, const double *
                         yinv = y + LATTICEVELOCITIES[i][1];
                         zinv = z + LATTICEVELOCITIES[i][2];
                         
-                        if(is_valid(xinv, yinv, zinv, xlength)){ //If the inverse cell is in the boundary or the domain
-                            idxinv = zinv*xl2 + yinv*(xl) + xinv; 
+                        if(is_valid(xinv, yinv, zinv, dim)){ //If the inverse cell is in the boundary or the domain
+                            idxinv = zinv*xlyl + yinv*(xl) + xinv;
                             if (flagField[idxinv]==FLUID){          //If the inverse cell is fluid
                                 
                                 computeDensity(&collideField[Q*idxinv], &density); //Density of the inverse cell
@@ -120,11 +120,11 @@ void treatBoundary(double *collideField, unsigned int* flagField, const double *
     }
     
     // x-faces
-    for(z = 0; z <= xlength + 1; z++ ){
-        for(y = 0; y <= xlength + 1; y++) {
-            for(x = 0; x <= xlength + 1; x+= (xlength + 1)) {
+    for(z = 0; z <= dim.zlen + 1; z++ ){
+        for(y = 0; y <= dim.ylen + 1; y++) {
+            for(x = 0; x <= dim.xlen + 1; x+= (dim.xlen + 1)) {
                 
-                idx = z*xl2 + y*(xl) + x;
+                idx = z*xlyl + y*(xl) + x;
                 
                 f = flagField[idx];
                 switch (f){
@@ -136,8 +136,8 @@ void treatBoundary(double *collideField, unsigned int* flagField, const double *
                         yinv = y + LATTICEVELOCITIES[i][1];
                         zinv = z + LATTICEVELOCITIES[i][2];
                         
-                        if(is_valid(xinv, yinv, zinv, xlength)){ //If the inverse cell is in the boundary or the domain
-                            idxinv = zinv*xl2 + yinv*(xl) + xinv; 
+                        if(is_valid(xinv, yinv, zinv, dim)){ //If the inverse cell is in the boundary or the domain
+                            idxinv = zinv*xlyl + yinv*(xl) + xinv;
                             if (flagField[idxinv]==FLUID){          //If the inverse cell is fluid
                                 collideField[Q*idx+i] = collideField[Q*idxinv+18-i];
                             }
@@ -152,8 +152,8 @@ void treatBoundary(double *collideField, unsigned int* flagField, const double *
                         yinv = y + LATTICEVELOCITIES[i][1];
                         zinv = z + LATTICEVELOCITIES[i][2];
                         
-                        if(is_valid(xinv, yinv, zinv, xlength)){ //If the inverse cell is in the boundary or the domain
-                            idxinv = zinv*xl2 + yinv*(xl) + xinv; 
+                        if(is_valid(xinv, yinv, zinv, dim)){ //If the inverse cell is in the boundary or the domain
+                            idxinv = zinv*xlyl + yinv*(xl) + xinv;
                             if (flagField[idxinv]==FLUID){          //If the inverse cell is fluid
                                 
                                 computeDensity(&collideField[Q*idxinv], &density); //Density of the inverse cell
