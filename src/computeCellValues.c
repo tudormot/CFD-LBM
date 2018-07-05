@@ -38,7 +38,7 @@ void computeTemperature(const double * const currentCell, const double * const d
 		(*Temp) += currentCell[i];
 	}
     
-    (*Temp) /= ( 0.5*(*density)*D0*R );
+    (*Temp) /= (*density);
 
 }
 
