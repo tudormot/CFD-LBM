@@ -1,0 +1,8 @@
+Boundary Conditions of T
+Modify main
+Add gravity
+Output T in vtk's
+
+modify xlength
+Compute T
+Compute geq
