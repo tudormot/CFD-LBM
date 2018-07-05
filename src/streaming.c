@@ -1,7 +1,7 @@
 #include "streaming.h"
 #include "LBDefinitions.h"
 
-void doStreaming(double *collideField, double *streamField,unsigned int *flagField,dimensions dim){
+void doStreaming(double *collideField_f, double *streamField_f,double * collideField_g, double * streamField_g,unsigned int *flagField,dimensions dim){
 
 	int x_dest, y_dest, z_dest; //coordinates of destination cell
 	
@@ -22,7 +22,8 @@ void doStreaming(double *collideField, double *streamField,unsigned int *flagFie
 					if( (x_dest >=1) && (y_dest >=1) && (z_dest >=1) && (x_dest <= dim.xlen ) && (y_dest <= dim.ylen ) && (z_dest <= dim.zlen ))
 					{
 						/*now perform the streaming step, from source to destination*/
-						streamField[NO_OF_LATTICE_DIMENSIONS*(z_dest*xlyl + y_dest*xl + x_dest) + l]= collideField[NO_OF_LATTICE_DIMENSIONS*(z*xlyl + y*xl + x) + l];
+						streamField_f[NO_OF_LATTICE_DIMENSIONS*(z_dest*xlyl + y_dest*xl + x_dest) + l]= collideField_f[NO_OF_LATTICE_DIMENSIONS*(z*xlyl + y*xl + x) + l];
+						streamField_g[NO_OF_LATTICE_DIMENSIONS*(z_dest*xlyl + y_dest*xl + x_dest) + l]= collideField_g[NO_OF_LATTICE_DIMENSIONS*(z*xlyl + y*xl + x) + l];
 					}
 				}
 
