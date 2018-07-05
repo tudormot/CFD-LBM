@@ -38,7 +38,7 @@ void initialiseFields(double *collideField, double *streamField, unsigned int *f
 		for(int j = 0; j<=dim.ylen;j++)
 			for(int k = 0; k<=dim.xlen+1;k++)
 			{
-				flagField[i*xlyl + j*xl + k] = FLUID;
+				flagField[i*xlyl + j*xl + k] = FLUID; //flag field  initialised to FLUID by default
 				for(int l = 0;l<NO_OF_LATTICE_DIMENSIONS;l++)
 				{
 					collideField[NO_OF_LATTICE_DIMENSIONS*(i*xlyl + j*xl + k) + l]=LATTICEWEIGHTS[l];
@@ -47,8 +47,10 @@ void initialiseFields(double *collideField, double *streamField, unsigned int *f
 			}
 
 	/*Now initialise flag field on the boundaries*/
+	initialiseFlags_NaturalConvection(flagField,dim);
 
 	
+#if 0 //old code
 	for(int k = 0;k<=dim.zlen+1;k++)
 		for(int i = 0;i<=dim.xlen+1;i++)
 		{
@@ -69,6 +71,7 @@ void initialiseFields(double *collideField, double *streamField, unsigned int *f
 			/*set bottom of cavity to no slip*/
 			flagField[(dim.zlen+1)*xlyl+i*xl + j] = MOV_WALL;
 		}
+#endif
 	
 }
 

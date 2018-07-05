@@ -603,5 +603,14 @@ int **read_pgm(const char *filename);
 	   ++nCount; \
         }
 
+/*helper macros for flag setting/checking*/
+#define IS_FLUID_BIT    (0x01) //b'0000 0001
+#define IS_FREESLIP_BIT (0x02) //b'0000 0010
+#define IS_NOSLIP_BIT   (0x04) //b'0000 0100
+#define IS_INFLOW_BIT  (0x08)  //b'0000 1000
+#define IS_OUTFLOW_BIT (0x10)    //b'0001 0000
+#define IS_NEUMANN_T_BIT (0x10)  //b'0001 0000 //temperature neumann boundary
+#define IS_DIRICHL_T_BIT (0x20)  //b'0010 0000 //temperature neumann boundary
+
 #endif     
 
