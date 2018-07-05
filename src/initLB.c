@@ -3,7 +3,7 @@
 #include "boundary.h"
 
 
-static void specialInitFlags_NaturalConvection(double * flagField,dimensions dim);
+static void specialInitFlags_NaturalConvection(unsigned int * flagField,dimensions dim);
 
 
 
@@ -62,7 +62,7 @@ void initialiseFields(double *collideField_f, double *streamField_f,double *coll
 }
 
 
-static void specialInitFlags_NaturalConvection(flagField,dim)
+static void specialInitFlags_NaturalConvection(unsigned int * flagField,dimensions dim)
 {
 	int xl = dim.xlen+2;           //variables used in the mapping between the spacial coordinates and the location in array
 	int xlyl = xl*(dim.ylen+2);	   //see line above

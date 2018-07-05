@@ -610,9 +610,22 @@ int **read_pgm(const char *filename);
 #define IS_INFLOW_BIT  (0x08)  //b'0000 1000
 #define IS_OUTFLOW_BIT (0x10)    //b'0001 0000
 #define IS_NEUMANN_T_BIT (0x10)  //b'0001 0000 //temperature neumann boundary
-#define IS_DIRICHL_T_BIT (0x20)  //b'0010 0000 //temperature neumann boundary
+#define IS_DIRICHL_T_BIT (0x20)  //b'0010 0000 //temperature dirichlet boundary
 #define IS_COLD_WALL     (0x40)
 #define IS_WARM_WALL     (0x80)
+
+/*helper functions for flag checking*/
+static inline int is_fluid(int flag){return ((flag&IS_FLUID_BIT)!=0);}
+static inline int is_freeslip(int flag){return ((flag&IS_FREESLIP_BIT)!=0);}
+static inline int is_noslip(int flag){return ((flag&IS_NOSLIP_BIT)!=0);}
+static inline int is_inflow(int flag){return ((flag&IS_INFLOW_BIT)!=0);}
+static inline int is_outflow(int flag){return ((flag&IS_OUTFLOW_BIT)!=0);}
+static inline int is_adiabatic(int flag){return ((flag&IS_NEUMANN_T_BIT)!=0);}
+static inline int is_coldwall(int flag){return ((flag&IS_COLD_WALL)!=0);}
+static inline int is_warmwall(int flag){return ((flag&IS_WARM_WALL)!=0);}
+
+
+
 
 #endif     
 
