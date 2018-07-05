@@ -41,10 +41,6 @@ static const int D0 = 3;
 #define NO_OF_DIMENSIONS (3)
 #define NO_OF_LATTICE_DIMENSIONS (19)
 
-/*definitions which have to do with flags*/
-#define FLUID (0)
-#define NO_SLIP (1)
-#define MOV_WALL (2) //moving wall
 
 typedef struct{
 	int xlen;

@@ -611,6 +611,8 @@ int **read_pgm(const char *filename);
 #define IS_OUTFLOW_BIT (0x10)    //b'0001 0000
 #define IS_NEUMANN_T_BIT (0x10)  //b'0001 0000 //temperature neumann boundary
 #define IS_DIRICHL_T_BIT (0x20)  //b'0010 0000 //temperature neumann boundary
+#define IS_COLD_WALL     (0x40)
+#define IS_WARM_WALL     (0x80)
 
 #endif     
 

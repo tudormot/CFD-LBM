@@ -18,7 +18,7 @@ char *argv[]                        /* argv[1] shall contain the path to the con
 
 
 /* initialises the particle distribution functions and the flagfield */
-void initialiseFields(double *collideField, double *streamField,unsigned int *flagField, dimensions dim, const double * const wallVelocity);
+void initialiseFields(double *collideField_f, double *streamField_f,double *collideField_g, double *streamField_g, unsigned int *flagField, dimensions dim, const double * const wallVelocity);
 
 #endif
 
