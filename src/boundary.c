@@ -237,7 +237,7 @@ void get_sum_of_weights(int x, int y, int z, dimensions dim, unsigned int* flagF
 
 void get_Boundary_Temperature(int x, int y, int z, double* T_d){
     
-    if (x==1) (*T_d) = 10.0;
+    if (x==1) (*T_d) = 0.0;
     else (*T_d) = 0.0;
     
 }
