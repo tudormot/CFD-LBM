@@ -47,14 +47,11 @@ static const int D0 = 3;
 #define MOV_WALL (2) //moving wall
 
 
-<<<<<<< 4b9e746fc7a17dc2be772abb973384a7d9aac152
 typedef struct{
 	int xlen;
 	int ylen;
 	int zlen;
 }dimensions;
-=======
->>>>>>> Added the computeTemperature method, and the list of things we are unsure about
 
 #endif
     
