@@ -10,13 +10,15 @@ void computePostCollisionDistribution(double *currentCell, const double * const 
 	}
 }
 
-void doCollision(double *collideField, unsigned int *flagField,const double * const tau,int xlength, double* vel){
+void doCollision(double *collideField, unsigned int *flagField,const double * const tau,int xlength, double* vel, double* Temps){
   
 	int Q = 19;	 // TODO: Q is hardcoded;
 	double density;
 	double velocity[3];
 	double feq[Q];
+	double geq[Q];
 	double* currentCell;
+	double Temp;
 	int i = 0; // TODO: is this 0 or 1? 5. Data structure. Should be pointing to first distribution function
 	int xl2 = (xlength+2)*(xlength+2); // index corrected (worksheet was wrong (?))
 
@@ -35,8 +37,11 @@ void doCollision(double *collideField, unsigned int *flagField,const double * co
 					vel[3*(z*xl2 + y*(xlength+2) + x) + 1] = velocity[1];
 					vel[3*(z*xl2 + y*(xlength+2) + x) + 2] = velocity[2];
 
+					computeTemperature(); //TODO: add arguments
 
+					Temps[z*xl2 + y*(xlength+2) + x] = Temp; //check it
 					computeFeq(&density, velocity, feq);
+					computeGeq(feq, &Temp, geq);
 					computePostCollisionDistribution(currentCell, tau, feq);
 				}
 		}
