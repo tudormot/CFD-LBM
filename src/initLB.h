@@ -1,11 +1,12 @@
 #ifndef _INITLB_H_
 #define _INITLB_H_
 #include "helper.h"
+#include "LBDefinitions.h"
 
 
 /* reads the parameters for the lid driven cavity scenario from a config file */
 int readParameters(
-int *xlength,                       /* reads domain size. Parameter name: "xlength" */
+dimensions * dim,                       /* reads domain size. Parameter name: "xlength" */
 double *tau,                        /* relaxation parameter tau. Parameter name: "tau" */
 double *velocityWall,               /* velocity of the lid. Parameter name: "characteristicvelocity" */
 unsigned int *timesteps,            /* number of timesteps. Parameter name: "timesteps" */
@@ -16,7 +17,7 @@ char *argv[]                        /* argv[1] shall contain the path to the con
 
 
 /* initialises the particle distribution functions and the flagfield */
-void initialiseFields(double *collideField, double *streamField,unsigned int *flagField, int xlength, const double * const wallVelocity);
+void initialiseFields(double *collideField, double *streamField,unsigned int *flagField, dimensions dim, const double * const wallVelocity);
 
 #endif
 
