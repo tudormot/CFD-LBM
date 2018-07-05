@@ -2,17 +2,19 @@
 #include "LBDefinitions.h"
 #include <stdio.h>
 
-void computePostCollisionDistribution(double *currentCell_f, double *currentCell_g, const double * const tau_f, const double * const tau_g, const double *const feq, const double * const geq){
+void computePostCollisionDistribution(double *currentCell_f, double *currentCell_g, const double * const tau_f, const double * const tau_g,
+		const double *const feq, const double * const geq, double* F_b){
   
 	int Q = 19; // TODO: again...
 
 	for(int i = 0; i < Q; ++i){
-		currentCell_f[i] = currentCell_f[i] - (1.0/(*tau_f))*(currentCell_f[i] - feq[i]); // Gravity is probably missing here
+		currentCell_f[i] = currentCell_f[i] - (1.0/(*tau_f))*(currentCell_f[i] - feq[i]) + F_b[i]; // Gravity is probably missing here
 		currentCell_g[i] = currentCell_g[i] - (1.0/(*tau_g))*(currentCell_g[i] - geq[i]); //
 	}
 }
 
-void doCollision(double *collideField_f, double *collideField_g, unsigned int *flagField,const double * const tau_f, const double * const tau_g ,dimensions dim, double* vel, double* Temps){
+void doCollision(double *collideField_f, double *collideField_g, unsigned int *flagField,const double * const tau_f, const double * const tau_g ,
+		dimensions dim, double* vel, double* Temps){
   
 	int Q = NO_OF_LATTICE_DIMENSIONS;
 	double density;
@@ -22,6 +24,7 @@ void doCollision(double *collideField_f, double *collideField_g, unsigned int *f
 	double* currentCell_f;
 	double* currentCell_g;
     double Temp;
+    double F_b[Q];
 	int xl = dim.xlen +2;
 	int xlyl = xl*(dim.ylen+2);
 
@@ -46,9 +49,24 @@ void doCollision(double *collideField_f, double *collideField_g, unsigned int *f
 
 					computeFeq(&density, velocity, feq);
 					computeGeq(feq, &Temp, geq);
-					computePostCollisionDistribution(currentCell_f, currentCell_g, tau_f, tau_g, feq, geq);
+					computeBuoyancy(&Temp, F_b);
+					computePostCollisionDistribution(currentCell_f, currentCell_g, tau_f, tau_g, feq, geq, F_b);
 				}
 		}
 
 }
 
+void computeBuoyancy(double* Temp, double* F_b){
+
+	double G;
+	double beta = 0.00021;
+	double T_c = 0;
+	double T_w = 10;
+	double T_m = (T_c + T_w)/2;
+	double g = -9.81;
+	G = beta*g*(*Temp - T_m);
+
+	for(int i = 0; i < NO_OF_LATTICE_DIMENSIONS; ++i){
+		F_b[i] = 3*LATTICEWEIGHTS[i]*G*LATTICEVELOCITIES[i][2];
+	}
+}
