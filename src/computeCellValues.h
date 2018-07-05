@@ -16,7 +16,7 @@ void computeVelocity(const double *const currentCell, const double * const densi
 void computeFeq(const double * const density, const double * const velocity, double *feq);
 
 /** computes the temperature within currentCell and stores the result in temperature */
-void computeTemperature(const double * const currentCell, const double * const density, double *temperature);
+void computeTemperature(const double * const currentCell, const double * const density, double *Temp);
 
 #endif
 

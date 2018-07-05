@@ -28,17 +28,17 @@ void computeVelocity(const double * const currentCell, const double * const dens
 
 }
 
-void computeTemperature(const double * const currentCell, const double * const density, double *temperature){
+void computeTemperature(const double * const currentCell, const double * const density, double *Temp){
   
     int Q = 19; // TODO: again hardcoded
     
-	(*temperature) = 0; // reset density, before summing for each cell
+	(*Temp) = 0; // reset density, before summing for each cell
 
 	for(int i = 0; i < Q; ++i){
-		(*temperature) += currentCell[i];
+		(*Temp) += currentCell[i];
 	}
     
-    (*temperature) /= ( 0.5*(*density)*D0*R );
+    (*Temp) /= ( 0.5*(*density)*D0*R );
 
 }
 

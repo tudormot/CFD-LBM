@@ -20,12 +20,12 @@ int main(int argc, char *argv[]){
     double velocityWall[3];
     unsigned int timesteps;
     unsigned int timestepsPerPlotting;
-    double* vel;
+    double* Vels, Temps;
     
     /*read parameters*/
     printf("=================================================================\n");
     printf("\nSIMULATION PARAMETERS:\n\n");
-    readParameters(&xlength,&tau,velocityWall,&timesteps,&timestepsPerPlotting,argc, argv);
+    readParameters(&xlength, &tau,velocityWall, &timesteps, &timestepsPerPlotting, argc, argv);
     
     /*remove old results*/
     system("rm -rf Output");
@@ -33,11 +33,14 @@ int main(int argc, char *argv[]){
     printf("\n");
     
     /*memory allocation of required arrays*/
-    int temp = (xlength+2) * (xlength+2) * (xlength+2);
-    collideField = (double*) malloc(sizeof(double) * temp * NO_OF_LATTICE_DIMENSIONS);
-    streamField = (double*) malloc(sizeof(double) * temp * NO_OF_LATTICE_DIMENSIONS);
-    flagField = (unsigned int*) malloc(sizeof(int) * temp);
-    vel = (double*)malloc(sizeof(double)*temp*3);
+    int size = (xlength+2) * (xlength+2) * (xlength+2);
+    collideField_f = (double*) calloc(size * NO_OF_LATTICE_DIMENSIONS, sizeof(double) );    //Collide field for f
+    streamField_f = (double*) calloc(size * NO_OF_LATTICE_DIMENSIONS, sizeof(double) );    //Stream field for f
+    collideField_g = (double*) calloc(size * NO_OF_LATTICE_DIMENSIONS, sizeof(double) );    //Collide field for g
+    streamField_g = (double*) calloc(size * NO_OF_LATTICE_DIMENSIONS, sizeof(double) );    //Stream field for g
+    flagField = (unsigned int*) calloc(size, sizeof(int));
+    Vels = (double*) calloc(size*3, sizeof(double));
+    Temps = (double*) calloc(size, sizeof(double));
     
     /*initialization of fields*/
     initialiseFields(collideField,streamField,flagField,xlength, velocityWall);
@@ -55,14 +58,14 @@ int main(int argc, char *argv[]){
         streamField = swap;
         
         /*collide*/
-        doCollision(collideField,flagField,&tau,xlength,vel);
+        doCollision(collideField,flagField,&tau,xlength,Vels);
         
         /*apply boundary conditions*/
         treatBoundary(collideField,flagField,velocityWall,xlength);
         
         /*write output and print progress to console*/
         if (t%timestepsPerPlotting==0){
-            writeVtkOutput(collideField,flagField,argv[0],t,xlength, vel);
+            writeVtkOutput(collideField,flagField,argv[0],t,xlength, Vels);
             printf("t = %4d/%d (%.1f%% completed)\n",t,timesteps, 100.0*t/timesteps);
         }
     }
@@ -71,7 +74,7 @@ int main(int argc, char *argv[]){
     free(collideField);
     free(streamField);
     free(flagField);
-    free(vel);
+    free(Vels);
     
     printf("\n=================================================================\n");
     printf("SIMULATION ENDED SUCCESFULLY");
