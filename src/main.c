@@ -22,7 +22,8 @@ int main(int argc, char *argv[]){
     double velocityWall[3];
     unsigned int timesteps;
     unsigned int timestepsPerPlotting;
-    double* Vels, Temps;
+    double* Vels;
+    double* Temps;
     
     /*read parameters*/
     printf("=================================================================\n");
