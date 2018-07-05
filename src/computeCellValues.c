@@ -61,7 +61,7 @@ void computeFeq(const double * const density, const double * const velocity, dou
 	}
 }
 
-void computeGeq(const double * const, feq, double* Temp, double *geq){
+void computeGeq(const double * const feq, double* Temp, double *geq){
 
 	/*	int Q = 19; //TODO: hardcoded again -> move it to LBDefinitions(?)
 		double cu; // dot product of lattice velocity and velocity
@@ -80,6 +80,6 @@ void computeGeq(const double * const, feq, double* Temp, double *geq){
 		}*/
 
 		for(int i = 0; i < NO_OF_LATTICE_DIMENSIONS; ++i )
-			geq[i] = Temp*feq[i]; // TODO: is this allowed?
+			geq[i] = (*Temp)*feq[i]; // TODO: is this allowed?
 }
 

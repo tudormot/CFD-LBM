@@ -27,7 +27,7 @@ int readParameters(dimensions * dim, double *tau_f, double *tau_g, double *veloc
 }
 
 
-void initialiseFields(double *collideField, double *streamField, unsigned int *flagField, dimensions dim ,const double * const wallVelocity){
+void initialiseFields(double *collideField, double *streamField,  unsigned int *flagField, dimensions dim ,const double * const wallVelocity){
 
     /* first initialise collideField and streamField: */
 	/* also initialise the fluid cell flags in this for loop nest for efficiency*/
