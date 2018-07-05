@@ -36,10 +36,10 @@ int main(int argc, char *argv[]){
     
     /*memory allocation of required arrays*/
     int size = (dim.xlen+2) * (dim.ylen+2) * (dim.zlen+2);
-    collideField = (double*) malloc(sizeof(double) * size * NO_OF_LATTICE_DIMENSIONS);
-    streamField = (double*) malloc(sizeof(double) * size * NO_OF_LATTICE_DIMENSIONS);
-    flagField = (unsigned int*) malloc(sizeof(int) * size);
-    vel = (double*)malloc(sizeof(double)*size*3);
+    collideField = (double*) calloc(size * NO_OF_LATTICE_DIMENSIONS, sizeof(double));
+    streamField = (double*) calloc( size * NO_OF_LATTICE_DIMENSIONS, sizeof(double));
+    flagField = (unsigned int*) calloc(size,sizeof(int));
+    vel = (double*)calloc(size*3,sizeof(double));
     
     /*initialization of fields*/
     initialiseFields(collideField,streamField,flagField,dim, velocityWall);
@@ -57,22 +57,14 @@ int main(int argc, char *argv[]){
         streamField = swap;
         
         /*collide*/
-<<<<<<< HEAD
-        doCollision(collideField,flagField,&tau,xlength,Vels);
-=======
         doCollision(collideField,flagField,&tau,dim,vel);
->>>>>>> heat2
         
         /*apply boundary conditions*/
         treatBoundary(collideField,flagField,velocityWall,dim);
         
         /*write output and print progress to console*/
         if (t%timestepsPerPlotting==0){
-<<<<<<< HEAD
-            writeVtkOutput(collideField,flagField,argv[0],t,xlength, Vels);
-=======
             writeVtkOutput(collideField,flagField,argv[0],t,dim, vel);
->>>>>>> heat2
             printf("t = %4d/%d (%.1f%% completed)\n",t,timesteps, 100.0*t/timesteps);
         }
     }
