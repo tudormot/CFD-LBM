@@ -7,7 +7,8 @@
 /* reads the parameters for the lid driven cavity scenario from a config file */
 int readParameters(
 dimensions * dim,                       /* reads domain size. Parameter name: "xlength" */
-double *tau,                        /* relaxation parameter tau. Parameter name: "tau" */
+double *tau_f,                        /* relaxation parameter for f. Parameter name: "tau" */
+double *tau_g,                        /* relaxation parameter for g. Parameter name: "tau" */
 double *velocityWall,               /* velocity of the lid. Parameter name: "characteristicvelocity" */
 unsigned int *timesteps,            /* number of timesteps. Parameter name: "timesteps" */
 unsigned int *timestepsPerPlotting, /* timesteps between subsequent VTK plots. Parameter name: "vtkoutput" */

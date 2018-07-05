@@ -2,7 +2,7 @@
 #include "LBDefinitions.h"
 #include "boundary.h"
 
-int readParameters(dimensions * dim, double *tau, double *velocityWall, unsigned int *timesteps, unsigned int *timestepsPerPlotting, int argc, char *argv[]){
+int readParameters(dimensions * dim, double *tau_f, double *tau_g, double *velocityWall, unsigned int *timesteps, unsigned int *timestepsPerPlotting, int argc, char *argv[]){
 
 	/* check that there is only one command line parameter */
 	if(argc !=2)
@@ -14,7 +14,8 @@ int readParameters(dimensions * dim, double *tau, double *velocityWall, unsigned
 	read_int( argv[1], "xlength", &(dim->xlen));
 	read_int( argv[1], "ylength", &(dim->ylen));
 	read_int( argv[1], "zlength", &(dim->zlen));
-	read_double( argv[1], "tau", tau);
+	read_double( argv[1], "tau_f", tau_f);
+	read_double( argv[1], "tau_g", tau_f);
 	read_double( argv[1], "xvelocityWall", &velocityWall[0]);
 	read_double( argv[1], "yvelocityWall", &velocityWall[1]);
 	read_double( argv[1], "zvelocityWall", &velocityWall[2]);

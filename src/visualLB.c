@@ -4,15 +4,11 @@
 #include <math.h>
 #include "computeCellValues.h"
 
-void writeVtkOutput(const double * const collideField, const unsigned int * const flagField,
-                    const char* filename, int t, dimensions dim, double* vel){
+void writeVtkOutput(const double* const Vels, const double* const Temps, const unsigned int * const flagField,
+         const char* filename, int t, dimensions dim){
     
     int x, y, z; //Indices for x, y, z and velocity respectively
-   // int i; // commented, because unused
-   // int Q = 19;
-    //double density;
-   // double velocity[3];
-  //  const double* currentCell;
+   
     int xl = dim.xlen+2;
     int xlyl = xl*(dim.ylen+2);
     int idx;
@@ -36,7 +32,7 @@ void writeVtkOutput(const double * const collideField, const unsigned int * cons
     // Write Velocities
     fprintf(fp, "\nPOINT_DATA %i \n", dim.xlen*dim.ylen*dim.zlen);
     fprintf(fp,"\n");
-    fprintf(fp, "VECTORS velocity float\n");
+    fprintf(fp, "VECTORS U float\n");
     
     for(z = 1; z <= dim.zlen; z++){
         for(y = 1; y <= dim.ylen; y++) {
@@ -48,6 +44,24 @@ void writeVtkOutput(const double * const collideField, const unsigned int * cons
             }
         }
     }
+    
+    // Write Temperatures
+    fprintf(fp,"\n");
+    fprintf(fp,"CELL_DATA %i \n", dim.xlen*dim.ylen*dim.zlen );
+    fprintf(fp, "SCALARS T float 1 \n"); 
+    fprintf(fp, "LOOKUP_TABLE default \n");
+    
+    for(z = 1; z <= dim.zlen; z++){
+        for(y = 1; y <= dim.ylen; y++) {
+            for(x = 1; x <= dim.zlen; x++) {
+                idx = (z*xlyl + y*xl + x);
+
+                    fprintf(fp, "%f\n", Temps[idx] );
+
+            }
+        }
+    }
+    
     
     // Close File
     if( fclose(fp) )

@@ -9,16 +9,16 @@
 #include "boundary.h"
 #include "LBDefinitions.h"
 
-
-
 int main(int argc, char *argv[]){
     
     /*declarations*/
-    double *collideField=NULL;
-    double *streamField=NULL;
+    double *collideField_f=NULL;
+    double *streamField_f=NULL;
+    double *collideField_g=NULL;
+    double *streamField_g=NULL;
     unsigned int *flagField=NULL;
     dimensions dim;    //struct that contains the domain dimensions
-    double tau;
+    double tau_f, tau_g;
     double velocityWall[3];
     unsigned int timesteps;
     unsigned int timestepsPerPlotting;
@@ -27,7 +27,7 @@ int main(int argc, char *argv[]){
     /*read parameters*/
     printf("=================================================================\n");
     printf("\nSIMULATION PARAMETERS:\n\n");
-    readParameters(&dim,&tau,velocityWall,&timesteps,&timestepsPerPlotting,argc, argv);
+    readParameters(&dim, &tau_f, &tau_g, velocityWall, &timesteps, &timestepsPerPlotting, argc, argv);
     
     /*remove old results*/
     system("rm -rf Output");
@@ -36,13 +36,16 @@ int main(int argc, char *argv[]){
     
     /*memory allocation of required arrays*/
     int size = (dim.xlen+2) * (dim.ylen+2) * (dim.zlen+2);
-    collideField = (double*) calloc(size * NO_OF_LATTICE_DIMENSIONS, sizeof(double));
-    streamField = (double*) calloc( size * NO_OF_LATTICE_DIMENSIONS, sizeof(double));
+    collideField_f = (double*) calloc(size * NO_OF_LATTICE_DIMENSIONS, sizeof(double));
+    streamField_f = (double*) calloc( size * NO_OF_LATTICE_DIMENSIONS, sizeof(double));
+    collideField_g = (double*) calloc(size * NO_OF_LATTICE_DIMENSIONS, sizeof(double));
+    streamField_g = (double*) calloc( size * NO_OF_LATTICE_DIMENSIONS, sizeof(double));
     flagField = (unsigned int*) calloc(size,sizeof(int));
-    vel = (double*)calloc(size*3,sizeof(double));
+    Vels = (double*) calloc(size*3, sizeof(double));
+    Temps = (double*) calloc(size*3, sizeof(double));
     
     /*initialization of fields*/
-    initialiseFields(collideField,streamField,flagField,dim, velocityWall);
+    initialiseFields(collideField_f, streamField_f, collideField_g, streamField_g, flagField, dim, velocityWall);
     
     /*now start the calculation: */
     printf("=================================================================\n");
@@ -50,30 +53,37 @@ int main(int argc, char *argv[]){
     for(int t = 1; t <= timesteps; t++){
         
         /*stream and put the results in collideField vector */
-        double *swap=NULL;
-        doStreaming(collideField,streamField,flagField,dim);
-        swap = collideField;
-        collideField = streamField;
-        streamField = swap;
+        double *swap_f=NULL;
+        double *swap_g=NULL;
+        doStreaming(collideField_f, streamField_f, collideField_g, streamField_g, flagField, dim);
+        swap_f = collideField_f;
+        swap_g = collideField_g;
+        collideField_f = streamField_f;
+        collideField_g = streamField_g;
+        streamField_f = swap_f;
+        streamField_g = swap_g;
         
         /*collide*/
-        doCollision(collideField,flagField,&tau,dim,vel);
+        doCollision(collideField_f, collideField_g, flagField, &tau_f, &tau_g, dim, Vels, Temps);
         
         /*apply boundary conditions*/
-        treatBoundary(collideField,flagField,velocityWall,dim);
+        treatBoundary(collideField_f, collideField_g, flagField, velocityWall, dim);
         
         /*write output and print progress to console*/
         if (t%timestepsPerPlotting==0){
-            writeVtkOutput(collideField,flagField,argv[0],t,dim, vel);
-            printf("t = %4d/%d (%.1f%% completed)\n",t,timesteps, 100.0*t/timesteps);
+            writeVtkOutput(Vels, Temps, flagField, argv[0], t, dim);
+            printf("t = %4d/%d (%.1f%% completed)\n", t, timesteps, 100.0*t/timesteps);
         }
     }
     
     /*free up memory*/
-    free(collideField);
-    free(streamField);
+    free(collideField_f);
+    free(collideField_g);
+    free(streamField_f);
+    free(streamField_g);
     free(flagField);
     free(Vels);
+    free(Temps);
     
     printf("\n=================================================================\n");
     printf("SIMULATION ENDED SUCCESFULLY");
