@@ -1,0 +1,2 @@
+Value of constant ideal gas
+Implementation of weights in g_eq (same as f or not)

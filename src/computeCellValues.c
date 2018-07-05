@@ -28,6 +28,20 @@ void computeVelocity(const double * const currentCell, const double * const dens
 
 }
 
+void computeTemperature(const double * const currentCell, const double * const density, double *temperature){
+  
+    int Q = 19; // TODO: again hardcoded
+    
+	(*temperature) = 0; // reset density, before summing for each cell
+
+	for(int i = 0; i < Q; ++i){
+		(*temperature) += currentCell[i];
+	}
+    
+    (*temperature) /= ( 0.5*(*density)*D0*R );
+
+}
+
 void computeFeq(const double * const density, const double * const velocity, double *feq){
  
 	int Q = 19; //TODO: hardcoded again -> move it to LBDefinitions(?)
