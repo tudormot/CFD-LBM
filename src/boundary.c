@@ -1,6 +1,7 @@
 #include "boundary.h"
 #include "computeCellValues.h"
 #include "helper.h"
+#include "LBDefinitions.h"
 
 int is_valid(int x, int y, int z, dimensions dim){
     return (x >= 0) && (x <= dim.xlen + 1) && (y >= 0) && (y <= dim.ylen + 1) && (z >= 0) && (z <= dim.zlen + 1);
@@ -186,12 +187,12 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                     
                     case 4: // Dirichlet
                     idx = z*xlyl + y*xl + x;
-                    get_sum_of_weights(x, y, z, &weight_sum);               //Denominator of Gc expression
+                    get_sum_of_weights(x, y, z, dim, flagField, &weight_sum);               //Denominator of Gc expression
                     computeDensity(&collideField_f[Q*idx], &density);       //Density of current cell
                     get_Boundary_Temperature(x, y, z, &T_d);                //Dirichlet Temperature of current cell
-                    computeTemperature(&collideField_g[Q*idx], &T_local);   //Actual Temperature of current cell
+                    computeTemperature(&collideField_g[Q*idx], &density, &T_local);   //Actual Temperature of current cell
                     
-                    Gc = density*(Td-T_local)/weight_sum;
+                    Gc = density*(T_d-T_local)/weight_sum;
                     
                     for(int i = 0; i < Q; i++) {
                         //Define inverse block
@@ -214,7 +215,9 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
     
 }
 
-void get_sum_of_weights(int x, int y, int z, double* weight_sum){
+void get_sum_of_weights(int x, int y, int z, dimensions dim, unsigned int* flagField, double* weight_sum){
+    int xl = dim.xlen + 2;
+    int xlyl = (xl)*(dim.ylen+2);
     int Q = 19;
     (*weight_sum) = 0.0;
     int xinv, yinv, zinv, idxinv;
@@ -232,9 +235,9 @@ void get_sum_of_weights(int x, int y, int z, double* weight_sum){
     }
 }
 
-void get_boundary_Temperature(int x, int y, int z, double* T_d){
+void get_Boundary_Temperature(int x, int y, int z, double* T_d){
     
-    if (x==1) (*T_d) = 0.0;
-    else (*T_d) = 10.0;
+    if (x==1) (*T_d) = 10.0;
+    else (*T_d) = 0.0;
     
 }
