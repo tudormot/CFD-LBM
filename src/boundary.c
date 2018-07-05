@@ -1,5 +1,6 @@
 #include "boundary.h"
 #include "computeCellValues.h"
+#include "helper.h"
 
 int is_valid(int x, int y, int z, dimensions dim){
     return (x >= 0) && (x <= dim.xlen + 1) && (y >= 0) && (y <= dim.ylen + 1) && (z >= 0) && (z <= dim.zlen + 1);
@@ -33,8 +34,8 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                         
                         if(is_valid(xinv, yinv, zinv, dim)){ //If the inverse cell is in the boundary or the domain
                             idxinv = zinv*xlyl + yinv*(xl) + xinv;
-                            if (flagField[idxinv]==FLUID){          //If the inverse cell is fluid
-                                collideField[Q*idx+i] = collideField[Q*idxinv+18-i];
+                            if (is_fluid(flagField[idxinv])){          //If the inverse cell is fluid
+                                collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i];
                             }
                         }
                     }
@@ -51,11 +52,11 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                             idxinv = zinv*xlyl + yinv*(xl) + xinv;
                             if (flagField[idxinv]==0){          //If the inverse cell is fluid
                                 
-                                computeDensity(&collideField[Q*idxinv], &density); //Density of the inverse cell
+                                computeDensity(&collideField_f[Q*idxinv], &density); //Density of the inverse cell
                                 inner = LATTICEVELOCITIES[i][0]*wallVelocity[0] + LATTICEVELOCITIES[i][1]*wallVelocity[1] 
                                         + LATTICEVELOCITIES[i][2]*wallVelocity[2]; // dot_product(ci, Uwall)
                                 
-                                collideField[Q*idx+i] = collideField[Q*idxinv+18-i] + 2.0*LATTICEWEIGHTS[i]*density*inner/C_S/C_S;
+                                collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i] + 2.0*LATTICEWEIGHTS[i]*density*inner/C_S/C_S;
                             }
                         }
                     }
@@ -86,8 +87,8 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                         
                         if(is_valid(xinv, yinv, zinv, dim)){ //If the inverse cell is in the boundary or the domain
                             idxinv = zinv*xlyl + yinv*(xl) + xinv;
-                            if (flagField[idxinv]==FLUID){          //If the inverse cell is fluid
-                                collideField[Q*idx+i] = collideField[Q*idxinv+18-i];
+                            if (is_fluid(flagField[idxinv])){          //If the inverse cell is fluid
+                                collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i];
                             }
                         }
                     }
@@ -102,13 +103,13 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                         
                         if(is_valid(xinv, yinv, zinv, dim)){ //If the inverse cell is in the boundary or the domain
                             idxinv = zinv*xlyl + yinv*(xl) + xinv;
-                            if (flagField[idxinv]==FLUID){          //If the inverse cell is fluid
+                            if (is_fluid(flagField[idxinv])){          //If the inverse cell is fluid
                                 
-                                computeDensity(&collideField[Q*idxinv], &density); //Density of the inverse cell
+                                computeDensity(&collideField_f[Q*idxinv], &density); //Density of the inverse cell
                                 inner = LATTICEVELOCITIES[i][0]*wallVelocity[0] + LATTICEVELOCITIES[i][1]*wallVelocity[1] 
                                         + LATTICEVELOCITIES[i][2]*wallVelocity[2]; // dot_product(ci, Uwall)
                                 
-                                collideField[Q*idx+i] = collideField[Q*idxinv+18-i] + 2.0*LATTICEWEIGHTS[i]*density*inner/C_S/C_S;
+                                collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i] + 2.0*LATTICEWEIGHTS[i]*density*inner/C_S/C_S;
                             }
                         }
                     }
@@ -139,8 +140,8 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                         
                         if(is_valid(xinv, yinv, zinv, dim)){ //If the inverse cell is in the boundary or the domain
                             idxinv = zinv*xlyl + yinv*(xl) + xinv;
-                            if (flagField[idxinv]==FLUID){          //If the inverse cell is fluid
-                                collideField[Q*idx+i] = collideField[Q*idxinv+18-i];
+                            if (is_fluid(flagField[idxinv])){          //If the inverse cell is fluid
+                                collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i];
                             }
                         }
                     }
@@ -155,13 +156,13 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                         
                         if(is_valid(xinv, yinv, zinv, dim)){ //If the inverse cell is in the boundary or the domain
                             idxinv = zinv*xlyl + yinv*(xl) + xinv;
-                            if (flagField[idxinv]==FLUID){          //If the inverse cell is fluid
+                            if (is_fluid(flagField[idxinv])){          //If the inverse cell is fluid
                                 
-                                computeDensity(&collideField[Q*idxinv], &density); //Density of the inverse cell
+                                computeDensity(&collideField_f[Q*idxinv], &density); //Density of the inverse cell
                                 inner = LATTICEVELOCITIES[i][0]*wallVelocity[0] + LATTICEVELOCITIES[i][1]*wallVelocity[1] 
                                         + LATTICEVELOCITIES[i][2]*wallVelocity[2]; // dot_product(ci, Uwall)
                                 
-                                collideField[Q*idx+i] = collideField[Q*idxinv+18-i] + 2.0*LATTICEWEIGHTS[i]*density*inner/C_S/C_S;
+                                collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i] + 2.0*LATTICEWEIGHTS[i]*density*inner/C_S/C_S;
                             }
                         }
                     }

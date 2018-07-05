@@ -39,7 +39,7 @@ void writeVtkOutput(const double* const Vels, const double* const Temps, const u
             for(x = 1; x <= dim.zlen; x++) {
                 idx = (z*xlyl + y*xl + x);
 
-                    fprintf(fp, "%f %f %f\n", vel[3*idx+0], vel[3*idx+1], vel[3*idx+2] );
+                    fprintf(fp, "%f %f %f\n", Vels[3*idx+0], Vels[3*idx+1], Vels[3*idx+2] );
 
             }
         }
