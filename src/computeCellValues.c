@@ -3,7 +3,7 @@
 
 void computeDensity(const double *const currentCell, double *density){
   
-	int Q = 19; // TODO: again hardcoded
+	int Q = NO_OF_LATTICE_DIMENSIONS;
 	(*density) = 0; // reset density, before summing for each cell
 
 	for(int i = 0; i < Q; ++i){
@@ -14,7 +14,7 @@ void computeDensity(const double *const currentCell, double *density){
 void computeVelocity(const double * const currentCell, const double * const density, double *velocity){
   
   	double product[3] = {0,0,0}; // reset f*c_i product before new cell calculation
-	int Q = 19;
+	int Q = NO_OF_LATTICE_DIMENSIONS;
 	for(int i = 0; i < Q; ++i){
 		product[0] += currentCell[i]*LATTICEVELOCITIES[i][0];
 		product[1] += currentCell[i]*LATTICEVELOCITIES[i][1];
@@ -30,7 +30,7 @@ void computeVelocity(const double * const currentCell, const double * const dens
 
 void computeTemperature(const double * const currentCell, const double * const density, double *Temp){
   
-    int Q = 19; // TODO: again hardcoded
+    int Q = NO_OF_LATTICE_DIMENSIONS;
     
 	(*Temp) = 0; // reset density, before summing for each cell
 
@@ -44,7 +44,7 @@ void computeTemperature(const double * const currentCell, const double * const d
 
 void computeFeq(const double * const density, const double * const velocity, double *feq){
  
-	int Q = 19; //TODO: hardcoded again -> move it to LBDefinitions(?)
+	int Q = NO_OF_LATTICE_DIMENSIONS;
 	double cu; // dot product of lattice velocity and velocity
 	double cu2; // cu squared;
 	double uu; // dot product of velocity with itself
@@ -79,7 +79,7 @@ void computeGeq(const double * const, feq, double* Temp, double *geq){
 			geq[i] = LATTICEWEIGHTS[i]*(*density)*(*Temp)*(1 + (cu/cs2) + (cu2/(2*cs4)) - (uu/(2*cs2)));
 		}*/
 
-		for(int i = 0; i < NO_OF_LATTICE_DIMENSIONS; ++i ) // TODO: is this allowed?
-			geq[i] = Temp*feq[i];
+		for(int i = 0; i < NO_OF_LATTICE_DIMENSIONS; ++i )
+			geq[i] = Temp*feq[i]; // TODO: is this allowed?
 }
 

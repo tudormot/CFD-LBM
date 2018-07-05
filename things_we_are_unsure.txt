@@ -1,2 +1,7 @@
 Value of constant ideal gas
 Implementation of weights in g_eq (same as f or not)
+Where to put the gravity?
+Initial conditions of g field(?)
+Initial value of T is 0 and we used formula for g from paper2.pdf hence we init. T = 0
+
+
