@@ -18,8 +18,8 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
     // Velocity Boundary Conditions Looping in the faces
     // z-faces
     for(z = 0; z <= dim.zlen + 1; z+= (dim.zlen + 1) ){
-        for(y = 1; y <= dim.ylen; y++) {
-            for(x = 1; x <= dim.xlen; x++) {
+        for(y = 0; y <= dim.ylen + 1; y++) {
+            for(x = 0; x <= dim.xlen + 1; x++) {
                 
                 idx = z*xlyl + y*(xl) + x;
                 
@@ -65,9 +65,9 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
         }
     }
     // y-faces
-    for(z = 1; z <= dim.zlen; z++ ){
+    for(z = 0; z <= dim.zlen + 1; z++ ){
         for(y = 0; y <= dim.ylen + 1; y+= (dim.ylen + 1)) {
-            for(x = 1; x <= dim.xlen; x++) {
+            for(x = 0; x <= dim.xlen + 1; x++) {
                 
                 idx = z*xlyl + y*(xl) + x;
                 
@@ -114,8 +114,8 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
     }
     
     // x-faces
-    for(z = 1; z <= dim.zlen; z++ ){
-        for(y = 1; y <= dim.ylen; y++) {
+    for(z = 0; z <= dim.zlen + 1; z++ ){
+        for(y = 0; y <= dim.ylen + 1; y++) {
             for(x = 0; x <= dim.xlen + 1; x+= (dim.xlen + 1)) {
                 
                 idx = z*xlyl + y*(xl) + x;

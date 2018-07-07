@@ -60,14 +60,14 @@ void doCollision(double *collideField_f, double *collideField_g, unsigned int *f
 void computeBuoyancy(double* Temp, double* F_b){
 
 	double G;
-	double beta = 0.00021;
+	double beta = 0.000021;
 	double T_c = -10;
 	double T_w = 10;
 	double T_m = (T_c + T_w)/2;
-	double g = 9.81;
+	double g = 1;
 	G = beta*g*(*Temp - T_m);
 
 	for(int i = 0; i < NO_OF_LATTICE_DIMENSIONS; ++i){
-		F_b[i] = 3*LATTICEWEIGHTS[i]*G*LATTICEVELOCITIES[i][2];
+		F_b[i] = 3.0*LATTICEWEIGHTS[i]*G*LATTICEVELOCITIES[i][2]/C_S;
 	}
 }
