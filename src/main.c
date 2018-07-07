@@ -31,7 +31,6 @@ int main(int argc, char *argv[]){
     printf("\nSIMULATION PARAMETERS:\n\n");
 
     readParameters(&dim, &tau_f, &tau_g, &T_cold, &T_warm, velocityWall, &timesteps, &timestepsPerPlotting, argc, argv, &filename);
-    printf("tau_g from MAIN: %f\n", tau_g);
     
     /*remove old results*/
     system("rm -rf Output");
@@ -49,8 +48,8 @@ int main(int argc, char *argv[]){
     Temps = (double*) calloc(size*3, sizeof(double));
     
     /*initialization of fields*/
-    initialiseFields(collideField_f, streamField_f, collideField_g, streamField_g, flagField, dim, velocityWall,filename);
-    treatBoundary(collideField_f, collideField_g, flagField, velocityWall, dim, T_cold, T_warm);
+    initialiseFields(collideField_f, streamField_f, collideField_g, streamField_g, flagField, dim, velocityWall, filename);
+    treatBoundary(collideField_f, collideField_g, flagField, Temps, velocityWall, dim, T_cold, T_warm);
     
     /*now start the calculation: */
     printf("=================================================================\n");
@@ -71,7 +70,7 @@ int main(int argc, char *argv[]){
         doCollision(collideField_f, collideField_g, flagField, &tau_f, &tau_g, dim, Vels, Temps);
 
         /*apply boundary conditions*/
-        treatBoundary(collideField_f, collideField_g, flagField, velocityWall, dim, T_cold, T_warm);
+        treatBoundary(collideField_f, collideField_g, flagField, Temps, velocityWall, dim, T_cold, T_warm);
 
         /*write output and print progress to console*/
         if (t%timestepsPerPlotting==0){
