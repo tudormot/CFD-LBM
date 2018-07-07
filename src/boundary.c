@@ -7,7 +7,7 @@ int is_valid(int x, int y, int z, dimensions dim){
     return (x >= 0) && (x <= dim.xlen + 1) && (y >= 0) && (y <= dim.ylen + 1) && (z >= 0) && (z <= dim.zlen + 1);
 }
 
-void treatBoundary(double *collideField_f, double *collideField_g, unsigned int* flagField, const double * const wallVelocity, dimensions dim){
+void treatBoundary(double *collideField_f, double *collideField_g, unsigned int* flagField, const double * const wallVelocity, dimensions dim, double T_cold, double T_warm){
     
     int x, y, z, xinv, yinv, zinv, idx, idxinv, f;
     int Q = 19;
@@ -147,7 +147,7 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                     get_sum_of_weights(x, y, z, dim, flagField, &weight_sum);               //Denominator of Gc expression
                     computeDensity(&collideField_f[Q*idx], &density);       //Density of current cell
                     
-                    get_Boundary_Temperature(x, y, z, &T_d);                //Dirichlet Temperature of current cell
+                    get_Boundary_Temperature(f, &T_d, T_cold, T_warm);                //Dirichlet Temperature of current cell
                     computeTemperature(&collideField_g[Q*idx], &density, &T_local);   //Actual Temperature of current cell
                     Gc = density*(T_d-T_local)/weight_sum;
                     
@@ -189,9 +189,15 @@ void get_sum_of_weights(int x, int y, int z, dimensions dim, unsigned int* flagF
     }
 }
 
-void get_Boundary_Temperature(int x, int y, int z, double* T_d){
-    
-    if (x==1) (*T_d) = 0.0;
-    else (*T_d) = 0.0;
+void get_Boundary_Temperature(int f, double* T_d, double T_cold, double T_warm){
+
+    if(is_coldwall(f))
+    	*T_d = T_cold;
+    else if(is_warmwall(f))
+    	*T_d = T_warm;
+    else{
+    	printf("WARNING: Neither cold nor warm temperature has been assigned to T_d. Assigning 0\n ");
+    	*T_d = 0;
+    }
     
 }

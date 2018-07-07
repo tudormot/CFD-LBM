@@ -9,6 +9,8 @@ int readParameters(
 dimensions * dim,                       /* reads domain size. Parameter name: "xlength" */
 double *tau_f,                        /* relaxation parameter for f. Parameter name: "tau" */
 double *tau_g,                        /* relaxation parameter for g. Parameter name: "tau" */
+double *T_cold,						/* temperature of cold wall in convection case */
+double *T_warm,						/* temperature of warm wall in convection case */
 double *velocityWall,               /* velocity of the lid. Parameter name: "characteristicvelocity" */
 unsigned int *timesteps,            /* number of timesteps. Parameter name: "timesteps" */
 unsigned int *timestepsPerPlotting, /* timesteps between subsequent VTK plots. Parameter name: "vtkoutput" */

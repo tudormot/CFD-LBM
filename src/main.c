@@ -18,7 +18,7 @@ int main(int argc, char *argv[]){
     double *streamField_g=NULL;
     unsigned int *flagField=NULL;
     dimensions dim;    //struct that contains the domain dimensions
-    double tau_f, tau_g;
+    double tau_f, tau_g, T_cold, T_warm;
     double velocityWall[3];
     unsigned int timesteps;
     unsigned int timestepsPerPlotting;
@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
     /*read parameters*/
     printf("=================================================================\n");
     printf("\nSIMULATION PARAMETERS:\n\n");
-    readParameters(&dim, &tau_f, &tau_g, velocityWall, &timesteps, &timestepsPerPlotting, argc, argv);
+    readParameters(&dim, &tau_f, &tau_g, &T_cold, &T_warm, velocityWall, &timesteps, &timestepsPerPlotting, argc, argv);
     
     /*remove old results*/
     system("rm -rf Output");
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]){
         doCollision(collideField_f, collideField_g, flagField, &tau_f, &tau_g, dim, Vels, Temps);
         
         /*apply boundary conditions*/
-        treatBoundary(collideField_f, collideField_g, flagField, velocityWall, dim);
+        treatBoundary(collideField_f, collideField_g, flagField, velocityWall, dim, T_cold, T_warm);
         
         /*write output and print progress to console*/
         if (t%timestepsPerPlotting==0){
