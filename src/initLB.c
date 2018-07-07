@@ -10,7 +10,6 @@ static void specialInitFlags_Cavity(unsigned int * flagField,dimensions dim);
 
 int readParameters(dimensions * dim, double *tau_f, double *tau_g, double *T_cold, double *T_warm, double *velocityWall, unsigned int *timesteps, unsigned int *timestepsPerPlotting, int argc, char *argv[], char **filename){
 
-
 	/* check that there is only one command line parameter */
 	if(argc !=2)
 	{
@@ -23,7 +22,7 @@ int readParameters(dimensions * dim, double *tau_f, double *tau_g, double *T_col
 	read_int( argv[1], "ylength", &(dim->ylen));
 	read_int( argv[1], "zlength", &(dim->zlen));
 	read_double( argv[1], "tau_f", tau_f);
-	read_double( argv[1], "tau_g", tau_f);
+	read_double( argv[1], "tau_g", tau_g);
 	read_double( argv[1], "T_cold", T_cold);
 	read_double( argv[1], "T_warm", T_warm);
 	read_double( argv[1], "xvelocityWall", &velocityWall[0]);
@@ -31,7 +30,6 @@ int readParameters(dimensions * dim, double *tau_f, double *tau_g, double *T_col
 	read_double( argv[1], "zvelocityWall", &velocityWall[2]);
 	read_int( argv[1], "timesteps", (int *)timesteps);
 	read_int( argv[1], "timestepsPerPlotting", (int *)timestepsPerPlotting);
-
 
   return 0;
 }
@@ -45,7 +43,7 @@ void initialiseFields(double *collideField_f, double *streamField_f,double *coll
 	int xlyl = xl*(dim.ylen+2);	   //see line above
 	
 	for(int i = 0;i<=dim.zlen+1;i++)
-		for(int j = 0; j<=dim.ylen;j++)
+		for(int j = 0; j<=dim.ylen+1;j++)
 			for(int k = 0; k<=dim.xlen+1;k++)
 			{
 				flagField[i*xlyl + j*xl + k] = IS_FLUID_BIT; //flag field  initialised to FLUID by default, reduces work to be done in specialsetflags functions
