@@ -50,6 +50,8 @@ int main(int argc, char *argv[]){
     
     /*initialization of fields*/
     initialiseFields(collideField_f, streamField_f, collideField_g, streamField_g, flagField, dim, velocityWall,filename);
+    treatBoundary(collideField_f, collideField_g, flagField, velocityWall, dim, T_cold, T_warm);
+    
     /*now start the calculation: */
     printf("=================================================================\n");
     printf("\nCOMPUTING...\n\n");
