@@ -190,7 +190,7 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                         
                     }
                 }
-                if (is_adiabatic(f)){
+                else if (is_adiabatic(f)){
                     get_sum_of_weights(x, y, z, dim, flagField, &weight_sum);               //Denominator of Gc expression
                     computeDensity(&collideField_f[Q*idx], &density);       //Density of current cell
                     

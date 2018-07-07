@@ -103,7 +103,6 @@ static void specialInitFlags_NaturalConvection(unsigned int * flagField,dimensio
 			flagField[k*xlyl + j*xl + (dim.xlen +1)] = IS_NOSLIP_BIT;
 			flagField[k*xlyl + j*xl + (dim.xlen)] |= IS_DIRICHL_T_BIT | IS_WARM_WALL;
 		}
-
 	/*setting flags for bottom and top faces of the cube*/
 	for(int i = 0 ;i<=dim.ylen+1;i++)
 		for(int j = 0 ;j<=dim.xlen+1;j++)
@@ -111,7 +110,7 @@ static void specialInitFlags_NaturalConvection(unsigned int * flagField,dimensio
 			flagField[i*xl + j] = IS_NOSLIP_BIT;
 			flagField[1 *xlyl + i*xl + j] |=  IS_NEUMANN_T_BIT;
 			flagField[(dim.zlen+1)*xlyl+i*xl + j] = IS_NOSLIP_BIT ;
-			flagField[(dim.zlen+1)*xlyl+i*xl + j] |= IS_NEUMANN_T_BIT;
+			flagField[(dim.zlen)*xlyl+i*xl + j] |= IS_NEUMANN_T_BIT;
 		}
 }
 

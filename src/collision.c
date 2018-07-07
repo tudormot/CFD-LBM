@@ -10,7 +10,7 @@ void computePostCollisionDistribution(double *currentCell_f, double *currentCell
 	int Q = NO_OF_LATTICE_DIMENSIONS;
 
 	for(int i = 0; i < Q; ++i){
-		currentCell_f[i] = currentCell_f[i] - (1.0/(*tau_f))*(currentCell_f[i] - feq[i]);// + F_b[i]; // Gravity is probably missing here
+		currentCell_f[i] = currentCell_f[i] - (1.0/(*tau_f))*(currentCell_f[i] - feq[i]) + F_b[i]; // Gravity is probably missing here
 		currentCell_g[i] = currentCell_g[i] - (1.0/(*tau_g))*(currentCell_g[i] - geq[i]); //
 	}
 }
@@ -61,10 +61,10 @@ void computeBuoyancy(double* Temp, double* F_b){
 
 	double G;
 	double beta = 0.00021;
-	double T_c = 0;
+	double T_c = -10;
 	double T_w = 10;
 	double T_m = (T_c + T_w)/2;
-	double g = -9.81;
+	double g = 9.81;
 	G = beta*g*(*Temp - T_m);
 
 	for(int i = 0; i < NO_OF_LATTICE_DIMENSIONS; ++i){
