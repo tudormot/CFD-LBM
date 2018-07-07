@@ -90,23 +90,30 @@ static void specialInitFlags_NaturalConvection(unsigned int * flagField,dimensio
 	for(int k = 0;k<=dim.zlen+1;k++)
 		for(int i = 0;i<=dim.xlen+1;i++)
 		{
-			flagField[k*xlyl + i] = IS_FREESLIP_BIT | IS_NEUMANN_T_BIT;
-			flagField[k*xlyl+(dim.ylen+1)*xl + i] = IS_FREESLIP_BIT | IS_NEUMANN_T_BIT;
+			flagField[k*xlyl + i] = IS_FREESLIP_BIT;
+			flagField[k*xlyl +(xl *1)+ i] |= IS_NEUMANN_T_BIT;
+			flagField[k*xlyl+(dim.ylen+1)*xl + i] = IS_FREESLIP_BIT ;
+			flagField[k*xlyl+(dim.ylen)*xl + i] |= IS_NEUMANN_T_BIT;
 		}
 
 	/*setting opposite lateral faces of the cube with the heated walls and no slip velocity conditions*/
 	for(int k = 0;k<=dim.zlen+1;k++)
 		for(int j = 0;j<=dim.ylen+1;j++) //indices are overlapping, however in this case since everything is non slip it does not matter
 		{
-			flagField[k*xlyl + j*xl + 0] = IS_NOSLIP_BIT | IS_DIRICHL_T_BIT | IS_COLD_WALL;
-			flagField[k*xlyl + j*xl + (dim.xlen +1)] = IS_NOSLIP_BIT | IS_DIRICHL_T_BIT | IS_WARM_WALL;
+			flagField[k*xlyl + j*xl + 0] = IS_NOSLIP_BIT ;
+			flagField[k*xlyl + j*xl + 1] |= IS_DIRICHL_T_BIT | IS_COLD_WALL;
+			flagField[k*xlyl + j*xl + (dim.xlen +1)] = IS_NOSLIP_BIT;
+			flagField[k*xlyl + j*xl + (dim.xlen)] |= IS_DIRICHL_T_BIT | IS_WARM_WALL;
 		}
+
 	/*setting flags for bottom and top faces of the cube*/
 	for(int i = 0 ;i<=dim.ylen+1;i++)
 		for(int j = 0 ;j<=dim.xlen+1;j++)
 		{
-			flagField[i*xl + j] = IS_NOSLIP_BIT | IS_NEUMANN_T_BIT;
-			flagField[(dim.zlen+1)*xlyl+i*xl + j] = IS_NOSLIP_BIT | IS_NEUMANN_T_BIT;
+			flagField[i*xl + j] = IS_NOSLIP_BIT;
+			flagField[1 *xlyl + i*xl + j] |=  IS_NEUMANN_T_BIT;
+			flagField[(dim.zlen+1)*xlyl+i*xl + j] = IS_NOSLIP_BIT ;
+			flagField[(dim.zlen+1)*xlyl+i*xl + j] |= IS_NEUMANN_T_BIT;
 		}
 }
 
