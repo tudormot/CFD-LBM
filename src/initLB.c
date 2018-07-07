@@ -8,7 +8,7 @@ static void specialInitFlags_Cavity(unsigned int * flagField,dimensions dim);
 
 
 
-int readParameters(dimensions * dim, double *tau_f, double *tau_g, double *T_cold, double *T_warm, double *velocityWall, unsigned int *timesteps, unsigned int *timestepsPerPlotting, int argc, char *argv[], char *filename){
+int readParameters(dimensions * dim, double *tau_f, double *tau_g, double *T_cold, double *T_warm, double *velocityWall, unsigned int *timesteps, unsigned int *timestepsPerPlotting, int argc, char *argv[], char **filename){
 
 
 	/* check that there is only one command line parameter */
@@ -17,7 +17,7 @@ int readParameters(dimensions * dim, double *tau_f, double *tau_g, double *T_col
 		printf("ERROR! command line input not recognised. Was expecting filename..\n");
 		return 0;
 	}
-	filename = argv[1];
+	*filename = argv[1];
 
 	read_int( argv[1], "xlength", &(dim->xlen));
 	read_int( argv[1], "ylength", &(dim->ylen));

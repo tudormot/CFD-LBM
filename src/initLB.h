@@ -16,7 +16,7 @@ unsigned int *timesteps,            /* number of timesteps. Parameter name: "tim
 unsigned int *timestepsPerPlotting, /* timesteps between subsequent VTK plots. Parameter name: "vtkoutput" */
 int argc,                           /* number of arguments. Should equal 2 (program + name of config file */
 char *argv[],                        /* argv[1] shall contain the path to the config file */
-char *filename                      /* initialised inside this function to argv[1]*/
+char **filename                      /* initialised inside this function to argv[1]*/
 );
 
 

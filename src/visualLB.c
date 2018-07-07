@@ -46,6 +46,7 @@ void writeVtkOutput(const double* const Vels, const double* const Temps, const u
         }
     }
     
+#if 0
     // Write Temperatures
     fprintf(fp,"\n");
     fprintf(fp, "SCALARS Temperature float 1 \n");
@@ -60,6 +61,7 @@ void writeVtkOutput(const double* const Vels, const double* const Temps, const u
             }
         }
     }
+#endif
     
     // Close File
     if( fclose(fp) )

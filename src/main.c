@@ -30,7 +30,7 @@ int main(int argc, char *argv[]){
     printf("=================================================================\n");
     printf("\nSIMULATION PARAMETERS:\n\n");
 
-    readParameters(&dim, &tau_f, &tau_g, &T_cold, &T_warm, velocityWall, &timesteps, &timestepsPerPlotting, argc, argv, filename);
+    readParameters(&dim, &tau_f, &tau_g, &T_cold, &T_warm, velocityWall, &timesteps, &timestepsPerPlotting, argc, argv, &filename);
 
     
     /*remove old results*/
