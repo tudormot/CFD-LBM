@@ -1,6 +1,0 @@
-
-Different lengths for x, y and z?
-
-Temperature measuring?
-
-Parallelize

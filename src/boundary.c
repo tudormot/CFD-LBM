@@ -14,7 +14,6 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
     int xl = dim.xlen + 2;
     int xlyl = (xl)*(dim.ylen+2);
     double density, inner, weight_sum, T_d, T_local, Gc;
-    
     // Velocity Boundary Conditions Looping in the faces
     // z-faces
     for(z = 0; z <= dim.zlen + 1; z+= (dim.zlen + 1) ){
@@ -56,7 +55,6 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
             
         }
     }
-    
     // y-faces
     for(z = 0; z <= dim.zlen + 1; z++ ){
         for(y = 0; y <= dim.ylen + 1; y+= (dim.ylen + 1)) {
@@ -97,7 +95,6 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
             
         }
     }
-    
     // x-faces
     for(z = 0; z <= dim.zlen + 1; z++ ){
         for(y = 0; y <= dim.ylen + 1; y++) {
@@ -139,7 +136,6 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
         }
     }
     
-    
     // Temperature Boundary Conditions
     for(z = 0; z <= dim.zlen + 1; z++ ){
         for(y = 0; y <= dim.ylen + 1; y++) {
@@ -150,9 +146,9 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                 if (is_dirichl(f)){
                     get_sum_of_weights(x, y, z, dim, flagField, &weight_sum);               //Denominator of Gc expression
                     computeDensity(&collideField_f[Q*idx], &density);       //Density of current cell
+                    
                     get_Boundary_Temperature(x, y, z, &T_d);                //Dirichlet Temperature of current cell
                     computeTemperature(&collideField_g[Q*idx], &density, &T_local);   //Actual Temperature of current cell
-                    
                     Gc = density*(T_d-T_local)/weight_sum;
                     
                     for(int i = 0; i < Q; i++) {
@@ -162,16 +158,16 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                         zinv = z + LATTICEVELOCITIES[i][2];
                         
                         idxinv = zinv*xlyl + yinv*(xl) + xinv;
-                        if (is_fluid(flagField[idxinv])){          //If the inverse cell is not fluid
+                        if (is_valid(xinv, yinv, zinv, dim) && is_fluid(flagField[idxinv])){          //If the inverse cell is not fluid
                             collideField_g[i] = LATTICEWEIGHTS[i]*Gc;
                         }
+                        
                     }
                 }
                     
             }
         }
     }
-    
 }
 
 void get_sum_of_weights(int x, int y, int z, dimensions dim, unsigned int* flagField, double* weight_sum){
@@ -187,10 +183,9 @@ void get_sum_of_weights(int x, int y, int z, dimensions dim, unsigned int* flagF
         zinv = z + LATTICEVELOCITIES[i][2];
         
         idxinv = zinv*xlyl + yinv*(xl) + xinv;
-        if (is_fluid(flagField[idxinv])){           //If the inverse cell is not fluid
+        if (is_valid(xinv, yinv, zinv, dim) && is_fluid(flagField[idxinv])){           //If the inverse cell is not fluid
             (*weight_sum) += LATTICEWEIGHTS[i];
         }
-        
     }
 }
 

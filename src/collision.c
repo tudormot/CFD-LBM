@@ -9,7 +9,7 @@ void computePostCollisionDistribution(double *currentCell_f, double *currentCell
 	int Q = NO_OF_LATTICE_DIMENSIONS;
 
 	for(int i = 0; i < Q; ++i){
-		currentCell_f[i] = currentCell_f[i] - (1.0/(*tau_f))*(currentCell_f[i] - feq[i]) + F_b[i]; // Gravity is probably missing here
+		currentCell_f[i] = currentCell_f[i] - (1.0/(*tau_f))*(currentCell_f[i] - feq[i]);// + F_b[i]; // Gravity is probably missing here
 		currentCell_g[i] = currentCell_g[i] - (1.0/(*tau_g))*(currentCell_g[i] - geq[i]); //
 	}
 }

@@ -47,7 +47,6 @@ int main(int argc, char *argv[]){
     
     /*initialization of fields*/
     initialiseFields(collideField_f, streamField_f, collideField_g, streamField_g, flagField, dim, velocityWall);
-    
     /*now start the calculation: */
     printf("=================================================================\n");
     printf("\nCOMPUTING...\n\n");

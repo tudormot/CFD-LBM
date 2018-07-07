@@ -45,23 +45,21 @@ void writeVtkOutput(const double* const Vels, const double* const Temps, const u
         }
     }
     
-    // Write Temperatures
-    fprintf(fp,"\n");
-    fprintf(fp,"CELL_DATA %i \n", dim.xlen*dim.ylen*dim.zlen );
-    fprintf(fp, "SCALARS T float 1 \n"); 
-    fprintf(fp, "LOOKUP_TABLE default \n");
-    int count = 0;
-    for(z = 1; z <= dim.zlen; z++){
-        for(y = 1; y <= dim.ylen; y++) {
-            for(x = 1; x <= dim.xlen; x++) {
-                idx = (z*xlyl + y*xl + x);
-                printf("It %d\n",count++);
-    
-                    fprintf(fp, "%f\n", Temps[idx] );
-    
-            }
-        }
-    }
+    // // Write Temperatures
+    // fprintf(fp,"\n");
+    // fprintf(fp,"CELL_DATA %i \n", dim.xlen*dim.ylen*dim.zlen );
+    // fprintf(fp, "SCALARS T float 1 \n"); 
+    // fprintf(fp, "LOOKUP_TABLE default \n");
+    // for(z = 1; z <= dim.zlen; z++){
+    //     for(y = 1; y <= dim.ylen; y++) {
+    //         for(x = 1; x <= dim.xlen; x++) {
+    //             idx = (z*xlyl + y*xl + x);
+    // 
+    //                 fprintf(fp, "%f\n", Temps[idx] );
+    // 
+    //         }
+    //     }
+    // }
     
     
     // Close File
