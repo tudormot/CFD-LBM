@@ -4,10 +4,12 @@
 
 
 static void specialInitFlags_NaturalConvection(unsigned int * flagField,dimensions dim);
+static void specialInitFlags_Cavity(unsigned int * flagField,dimensions dim);
 
 
 
-int readParameters(dimensions * dim, double *tau_f, double *tau_g, double *T_cold, double *T_warm, double *velocityWall, unsigned int *timesteps, unsigned int *timestepsPerPlotting, int argc, char *argv[]){
+int readParameters(dimensions * dim, double *tau_f, double *tau_g, double *T_cold, double *T_warm, double *velocityWall, unsigned int *timesteps, unsigned int *timestepsPerPlotting, int argc, char *argv[], char *filename){
+
 
 	/* check that there is only one command line parameter */
 	if(argc !=2)
@@ -15,6 +17,7 @@ int readParameters(dimensions * dim, double *tau_f, double *tau_g, double *T_col
 		printf("ERROR! command line input not recognised. Was expecting filename..\n");
 		return 0;
 	}
+	filename = argv[1];
 
 	read_int( argv[1], "xlength", &(dim->xlen));
 	read_int( argv[1], "ylength", &(dim->ylen));
@@ -34,7 +37,7 @@ int readParameters(dimensions * dim, double *tau_f, double *tau_g, double *T_col
 }
 
 
-void initialiseFields(double *collideField_f, double *streamField_f,double *collideField_g, double *streamField_g,  unsigned int *flagField, dimensions dim ,const double * const wallVelocity){
+void initialiseFields(double *collideField_f, double *streamField_f,double *collideField_g, double *streamField_g,  unsigned int *flagField, dimensions dim ,const double * const wallVelocity, const char * const filename){
 
     /* first initialise collideField and streamField: */
 	/* also initialise the fluid cell flags in this for loop nest for efficiency*/
@@ -57,8 +60,22 @@ void initialiseFields(double *collideField_f, double *streamField_f,double *coll
 				}
 			}
 
-	/*Now initialise flag field on the boundaries*/
-	specialInitFlags_NaturalConvection(flagField,dim);
+	/*Now initialise flag field on the boundaries. Based on input filename we are initialising flags differently:*/
+
+	if(strcmp(filename,"cavity.dat")==0) //if name is cavity.dat
+	{
+		specialInitFlags_Cavity(flagField,dim);
+	}
+	else if (strcmp(filename,"convection.dat")==0)
+	{
+		specialInitFlags_NaturalConvection(flagField,dim);
+	}
+	else
+	{
+		printf("Error! no special_setflags function available for filename specified..\n");
+	}
+
+
 
 
 }
@@ -90,5 +107,34 @@ static void specialInitFlags_NaturalConvection(unsigned int * flagField,dimensio
 		{
 			flagField[i*xl + j] = IS_NOSLIP_BIT | IS_NEUMANN_T_BIT;
 			flagField[(dim.zlen+1)*xlyl+i*xl + j] = IS_NOSLIP_BIT | IS_NEUMANN_T_BIT;
+		}
+}
+
+static void specialInitFlags_Cavity(unsigned int * flagField,dimensions dim)
+{
+	int xl = dim.xlen+2;           //variables used in the mapping between the spacial coordinates and the location in array
+	int xlyl = xl*(dim.ylen+2);	   //see line above
+
+	/*setting opposite lateral faces which are adiabatic and no slip*/
+	for(int k = 0;k<=dim.zlen+1;k++)
+		for(int i = 0;i<=dim.xlen+1;i++)
+		{
+			flagField[k*xlyl + i] = IS_NOSLIP_BIT | IS_NEUMANN_T_BIT;
+			flagField[k*xlyl+(dim.ylen+1)*xl + i] = IS_NOSLIP_BIT | IS_NEUMANN_T_BIT;
+		}
+
+	/*setting opposite lateral faces of the cube which are adiabatic and no slip*/
+	for(int k = 0;k<=dim.zlen+1;k++)
+		for(int j = 0;j<=dim.ylen+1;j++) //indices are overlapping, however in this case since everything is non slip it does not matter
+		{
+			flagField[k*xlyl + j*xl + 0] = IS_NOSLIP_BIT | IS_NEUMANN_T_BIT;
+			flagField[k*xlyl + j*xl + (dim.xlen +1)] = IS_NOSLIP_BIT | IS_NEUMANN_T_BIT;
+		}
+	/*setting flags for bottom and top faces of the cube. Both are adiabatic, but the top face is a moving wall*/
+	for(int i = 0 ;i<=dim.ylen+1;i++)
+		for(int j = 0 ;j<=dim.xlen+1;j++)
+		{
+			flagField[i*xl + j] = IS_NOSLIP_BIT | IS_NEUMANN_T_BIT;
+			flagField[(dim.zlen+1)*xlyl+i*xl + j] = IS_INFLOW_BIT | IS_NEUMANN_T_BIT;
 		}
 }

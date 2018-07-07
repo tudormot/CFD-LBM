@@ -24,11 +24,14 @@ int main(int argc, char *argv[]){
     unsigned int timestepsPerPlotting;
     double* Vels;
     double* Temps;
+    char * filename= NULL; //initialised in readParameters, will point to filename
     
     /*read parameters*/
     printf("=================================================================\n");
     printf("\nSIMULATION PARAMETERS:\n\n");
-    readParameters(&dim, &tau_f, &tau_g, &T_cold, &T_warm, velocityWall, &timesteps, &timestepsPerPlotting, argc, argv);
+
+    readParameters(&dim, &tau_f, &tau_g, &T_cold, &T_warm, velocityWall, &timesteps, &timestepsPerPlotting, argc, argv, filename);
+
     
     /*remove old results*/
     system("rm -rf Output");
@@ -46,7 +49,7 @@ int main(int argc, char *argv[]){
     Temps = (double*) calloc(size*3, sizeof(double));
     
     /*initialization of fields*/
-    initialiseFields(collideField_f, streamField_f, collideField_g, streamField_g, flagField, dim, velocityWall);
+    initialiseFields(collideField_f, streamField_f, collideField_g, streamField_g, flagField, dim, velocityWall,filename);
     /*now start the calculation: */
     printf("=================================================================\n");
     printf("\nCOMPUTING...\n\n");
