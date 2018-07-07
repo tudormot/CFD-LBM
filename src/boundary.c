@@ -213,7 +213,8 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                         idx1 = (z-1)*xlyl + y*xl + x;
                     }
                     
-                    T_local = Temps[idx1];
+                    T_d = Temps[idx1];
+                    computeTemperature(&collideField_g[Q*idx], &density, &T_local);   //Actual Temperature of current cell
                     Gc = density*(T_d-T_local)/weight_sum;
 
                     for(int i = 0; i < Q; i++) {
