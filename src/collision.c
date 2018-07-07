@@ -5,7 +5,7 @@
 void computePostCollisionDistribution(double *currentCell_f, double *currentCell_g, const double * const tau_f, const double * const tau_g,
 		const double *const feq, const double * const geq, double* F_b){
   
-	int Q = 19; // TODO: again...
+	int Q = NO_OF_LATTICE_DIMENSIONS;
 
 	for(int i = 0; i < Q; ++i){
 		currentCell_f[i] = currentCell_f[i] - (1.0/(*tau_f))*(currentCell_f[i] - feq[i]) + F_b[i]; // Gravity is probably missing here
@@ -34,7 +34,7 @@ void doCollision(double *collideField_f, double *collideField_g, unsigned int *f
 			for(int x=1; x <= dim.zlen; ++x){ // x is last for efficiency (cache)
 
 
-				if( flagField[z*xlyl + y*xl + x] == 0){ // index corrected
+				if( is_fluid(flagField[z*xlyl + y*xl + x])){
 					currentCell_f = &collideField_f[Q*(z*xlyl + y*xl + x)];
 					computeDensity(currentCell_f, &density);
 					computeVelocity(currentCell_f, &density, velocity);
