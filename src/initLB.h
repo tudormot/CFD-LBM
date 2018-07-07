@@ -13,12 +13,15 @@ double *velocityWall,               /* velocity of the lid. Parameter name: "cha
 unsigned int *timesteps,            /* number of timesteps. Parameter name: "timesteps" */
 unsigned int *timestepsPerPlotting, /* timesteps between subsequent VTK plots. Parameter name: "vtkoutput" */
 int argc,                           /* number of arguments. Should equal 2 (program + name of config file */
-char *argv[]                        /* argv[1] shall contain the path to the config file */
+char *argv[],                        /* argv[1] shall contain the path to the config file */
+char *filename                      /* initialised inside this function to argv[1]*/
 );
 
 
 /* initialises the particle distribution functions and the flagfield */
-void initialiseFields(double *collideField_f, double *streamField_f,double *collideField_g, double *streamField_g, unsigned int *flagField, dimensions dim, const double * const wallVelocity);
+void initialiseFields(double *collideField_f, double *streamField_f,double *collideField_g,
+		double *streamField_g, unsigned int *flagField, dimensions dim,
+		const double * const wallVelocity,const char * const filename);
 
 #endif
 
