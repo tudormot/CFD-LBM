@@ -176,7 +176,7 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                     get_Boundary_Temperature(f, &T_d, T_cold, T_warm);                //Dirichlet Temperature of current cell
                     computeTemperature(&collideField_g[Q*idx], &density, &T_local);   //Actual Temperature of current cell
                     Gc = density*(T_d-T_local)/weight_sum;
-                    
+
                     for(int i = 0; i < Q; i++) {
                         //Define inverse block
                         xinv = x + LATTICEVELOCITIES[i][0];
@@ -185,7 +185,11 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                         
                         idxinv = zinv*xlyl + yinv*(xl) + xinv;
                         if (is_valid(xinv, yinv, zinv, dim) && (~is_fluid(flagField[idxinv]))){          //If the inverse cell is not fluid
+<<<<<<< HEAD
                             collideField_g[Q*idx + i] += LATTICEWEIGHTS[i]*Gc;
+=======
+                            collideField_g[Q*idx+i] += LATTICEWEIGHTS[i]*Gc;
+>>>>>>> 8010a31bc38247069c66e31bf79ea4cd8f5775f2
                         }
                         
                     }
@@ -197,7 +201,7 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                     T_d = 0.0;
                     computeTemperature(&collideField_g[Q*idx], &density, &T_local);   //Actual Temperature of current cell
                     Gc = density*(T_d-T_local)/weight_sum;
-                    
+
                     for(int i = 0; i < Q; i++) {
                         //Define inverse block
                         xinv = x + LATTICEVELOCITIES[i][0];
@@ -205,7 +209,11 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                         zinv = z + LATTICEVELOCITIES[i][2];
                         
                         idxinv = zinv*xlyl + yinv*(xl) + xinv;
+<<<<<<< HEAD
                         if (is_valid(xinv, yinv, zinv, dim) && (~is_fluid(flagField[idxinv]) )){          //If the inverse cell is not fluid
+=======
+                        if (is_valid(xinv, yinv, zinv, dim) && (~is_fluid(flagField[idxinv]))){          //If the inverse cell is not fluid
+>>>>>>> 8010a31bc38247069c66e31bf79ea4cd8f5775f2
                             collideField_g[Q*idx + i] += LATTICEWEIGHTS[i]*Gc;
                         }
                         
@@ -243,8 +251,13 @@ void get_Boundary_Temperature(int f, double* T_d, double T_cold, double T_warm){
     else if(is_warmwall(f))
     *T_d = T_warm;
     else{
+<<<<<<< HEAD
         //printf("WARNING: Neither cold nor warm temperature has been assigned to T_d. Assigning 0\n ");
         *T_d = 0;
+=======
+    	//printf("WARNING: Neither cold nor warm temperature has been assigned to T_d. Assigning 0\n ");
+    	*T_d = 0;
+>>>>>>> 8010a31bc38247069c66e31bf79ea4cd8f5775f2
     }
     
 }
