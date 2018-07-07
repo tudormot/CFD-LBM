@@ -44,7 +44,7 @@ void doCollision(double *collideField_f, double *collideField_g, unsigned int *f
 					vel[3*(z*xlyl + y*xl + x) + 1] = velocity[1];
 					vel[3*(z*xlyl + y*xl + x) + 2] = velocity[2];
 
-					currentCell_g = &collideField_g[z*xlyl + y*xl + x];
+					currentCell_g = &collideField_g[Q*(z*xlyl + y*xl + x)];
 					computeTemperature(currentCell_g, &density, &Temp);
 					Temps[z*xlyl + y*xl + x] = Temp; //check index
 

@@ -4,5 +4,4 @@ Where to put the gravity?
 Initial conditions of g field(?)
 Initial value of T is 0 and we used formula for g from paper2.pdf hence we init. T = 0
 Is C_s constant? It is stated in the paper that it is equal to sqrt(RT)
-
-Condition for moving wall different than condition for inflow?
+Boundary conditions of the velocity are the same as in the worksheet?
