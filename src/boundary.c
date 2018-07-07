@@ -161,7 +161,7 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                         
                         idxinv = zinv*xlyl + yinv*(xl) + xinv;
                         if (is_valid(xinv, yinv, zinv, dim) && (~is_fluid(flagField[idxinv]))){          //If the inverse cell is not fluid
-                            collideField_g[i] += LATTICEWEIGHTS[i]*Gc;
+                            collideField_g[Q*idx+i] += LATTICEWEIGHTS[i]*Gc;
                         }
                         
                     }
@@ -182,7 +182,7 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                         
                         idxinv = zinv*xlyl + yinv*(xl) + xinv;
                         if (is_valid(xinv, yinv, zinv, dim) && (~is_fluid(flagField[idxinv]))){          //If the inverse cell is not fluid
-                            collideField_g[i] += LATTICEWEIGHTS[i]*Gc;
+                            collideField_g[Q*idx + i] += LATTICEWEIGHTS[i]*Gc;
                         }
                         
                     }
