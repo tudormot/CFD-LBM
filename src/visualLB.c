@@ -30,9 +30,10 @@ void writeVtkOutput(const double* const Vels, const double* const Temps, const u
     write_vtkPointCoordinates(fp, dim);
     
     // Write Velocities
-    fprintf(fp, "\nPOINT_DATA %i \n", dim.xlen*dim.ylen*dim.zlen);
     fprintf(fp,"\n");
-    fprintf(fp, "VECTORS U float\n");
+    fprintf(fp,"POINT_DATA %i \n", dim.xlen*dim.ylen*dim.zlen );
+    fprintf(fp,"\n");
+    fprintf(fp, "VECTORS Velocity float\n");
     
     for(z = 1; z <= dim.zlen; z++){
         for(y = 1; y <= dim.ylen; y++) {
@@ -45,22 +46,20 @@ void writeVtkOutput(const double* const Vels, const double* const Temps, const u
         }
     }
     
-    // // Write Temperatures
-    // fprintf(fp,"\n");
-    // fprintf(fp,"CELL_DATA %i \n", dim.xlen*dim.ylen*dim.zlen );
-    // fprintf(fp, "SCALARS T float 1 \n"); 
-    // fprintf(fp, "LOOKUP_TABLE default \n");
-    // for(z = 1; z <= dim.zlen; z++){
-    //     for(y = 1; y <= dim.ylen; y++) {
-    //         for(x = 1; x <= dim.xlen; x++) {
-    //             idx = (z*xlyl + y*xl + x);
-    // 
-    //                 fprintf(fp, "%f\n", Temps[idx] );
-    // 
-    //         }
-    //     }
-    // }
+    // Write Temperatures
+    fprintf(fp,"\n");
+    fprintf(fp, "SCALARS Temperature float 1 \n");
+    fprintf(fp, "LOOKUP_TABLE default \n");
+    for(z = 1; z <= dim.zlen; z++){
+        for(y = 1; y <= dim.ylen; y++) {
+            for(x = 1; x <= dim.xlen; x++) {
+                idx = (z*xlyl + y*xl + x);
     
+                    fprintf(fp, "%f\n", Temps[idx] );
+    
+            }
+        }
+    }
     
     // Close File
     if( fclose(fp) )
@@ -87,17 +86,17 @@ void write_vtkHeader( FILE *fp, dimensions dim) {
     fprintf(fp,"\n");	
     fprintf(fp,"DATASET STRUCTURED_GRID\n");
     fprintf(fp,"DIMENSIONS  %i %i %i \n", dim.xlen, dim.ylen, dim.zlen);
-    fprintf(fp,"POINTS %i int\n", (dim.xlen)*(dim.ylen)*(dim.zlen) );
+    fprintf(fp,"POINTS %i float\n", (dim.xlen)*(dim.ylen)*(dim.zlen) );
     fprintf(fp,"\n");
 }
 
 void write_vtkPointCoordinates( FILE *fp, dimensions dim) {
 
-    int x, y, z;
-    for(z = 1; z <= dim.zlen; z++){
-        for(y = 1; y <= dim.ylen; y++) {
-            for(x = 1; x <= dim.xlen; x++) {
-                fprintf(fp, "%i %i %i\n", x, y, z );
+    double x, y, z;
+    for(z = 1; z <= dim.zlen; z+=1.0){
+        for(y = 1; y <= dim.ylen; y+=1.0) {
+            for(x = 1; x <= dim.xlen; x+=1.0) {
+                fprintf(fp, "%f %f %f\n", x, y, z );
             }
         }
     }
