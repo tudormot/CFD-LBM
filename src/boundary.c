@@ -15,7 +15,7 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
     int xlyl = (xl)*(dim.ylen+2);
     double density, inner, weight_sum, T_d, T_local, Gc;
     
-    // Velocity Boundary Conditions
+    // Velocity Boundary Conditions Looping in the faces
     // z-faces
     for(z = 0; z <= dim.zlen + 1; z+= (dim.zlen + 1) ){
         for(y = 0; y <= dim.ylen + 1; y++) {
@@ -24,101 +24,77 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                 idx = z*xlyl + y*(xl) + x;
                 
                 f = flagField[idx];
-                switch (f){
+                
+                for(int i = 0; i < Q; i++) {
+                    //Define inverse block
+                    xinv = x + LATTICEVELOCITIES[i][0];
+                    yinv = y + LATTICEVELOCITIES[i][1];
+                    zinv = z + LATTICEVELOCITIES[i][2];
+                    idxinv = zinv*xlyl + yinv*(xl) + xinv;
                     
-                    case 1: // No Slip
-                    for(int i = 0; i < Q; i++) {
-                        //Define inverse block
-                        xinv = x + LATTICEVELOCITIES[i][0];
-                        yinv = y + LATTICEVELOCITIES[i][1];
-                        zinv = z + LATTICEVELOCITIES[i][2];
-                        
-                        if(is_valid(xinv, yinv, zinv, dim)){ //If the inverse cell is in the boundary or the domain
-                            idxinv = zinv*xlyl + yinv*(xl) + xinv;
-                            if (is_fluid(flagField[idxinv])){          //If the inverse cell is fluid
-                                collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i];
-                            }
+                    if(is_valid(xinv, yinv, zinv, dim) && is_fluid(flagField[idxinv])){ //If the inverse cell is in the boundary or the domain
+                        if (is_noslip(f)){
+                            collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i];
+                        }
+                        else if (is_inflow(f)){
+                            computeDensity(&collideField_f[Q*idxinv], &density); //Density of the inverse cell
+                            inner = LATTICEVELOCITIES[i][0]*wallVelocity[0] + LATTICEVELOCITIES[i][1]*wallVelocity[1] 
+                            + LATTICEVELOCITIES[i][2]*wallVelocity[2]; // dot_product(ci, Uwall)
+                            
+                            collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i] + 2.0*LATTICEWEIGHTS[i]*density*inner/C_S/C_S;
+                            
+                        }
+                        else if (is_freeslip(f)){
+                        collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i];
                         }
                     }
-                    break;
-                    
-                    case 2: // Moving Wall
-                    for(int i = 0; i < Q; i++) {
-                        //Define inverse block
-                        xinv = x + LATTICEVELOCITIES[i][0];
-                        yinv = y + LATTICEVELOCITIES[i][1];
-                        zinv = z + LATTICEVELOCITIES[i][2];
-                        
-                        if(is_valid(xinv, yinv, zinv, dim)){ //If the inverse cell is in the boundary or the domain
-                            idxinv = zinv*xlyl + yinv*(xl) + xinv;
-                            if (flagField[idxinv]==0){          //If the inverse cell is fluid
-                                
-                                computeDensity(&collideField_f[Q*idxinv], &density); //Density of the inverse cell
-                                inner = LATTICEVELOCITIES[i][0]*wallVelocity[0] + LATTICEVELOCITIES[i][1]*wallVelocity[1] 
-                                        + LATTICEVELOCITIES[i][2]*wallVelocity[2]; // dot_product(ci, Uwall)
-                                
-                                collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i] + 2.0*LATTICEWEIGHTS[i]*density*inner/C_S/C_S;
-                            }
-                        }
-                    }
-                    break;
-                    
                 }
                 
+                
+                
             }
+            
         }
     }
     
     // y-faces
     for(z = 0; z <= dim.zlen + 1; z++ ){
-        for(y = 0; y <= dim.ylen + 1; y+= (dim.ylen+ 1)) {
+        for(y = 0; y <= dim.ylen + 1; y+= (dim.ylen + 1)) {
             for(x = 0; x <= dim.xlen + 1; x++) {
                 
                 idx = z*xlyl + y*(xl) + x;
                 
                 f = flagField[idx];
-                switch (f){
+                
+                for(int i = 0; i < Q; i++) {
+                    //Define inverse block
+                    xinv = x + LATTICEVELOCITIES[i][0];
+                    yinv = y + LATTICEVELOCITIES[i][1];
+                    zinv = z + LATTICEVELOCITIES[i][2];
+                    idxinv = zinv*xlyl + yinv*(xl) + xinv;
                     
-                    case 1: // No Slip
-                    for(int i = 0; i < Q; i++) {
-                        //Define inverse block
-                        xinv = x + LATTICEVELOCITIES[i][0];
-                        yinv = y + LATTICEVELOCITIES[i][1];
-                        zinv = z + LATTICEVELOCITIES[i][2];
-                        
-                        if(is_valid(xinv, yinv, zinv, dim)){ //If the inverse cell is in the boundary or the domain
-                            idxinv = zinv*xlyl + yinv*(xl) + xinv;
-                            if (is_fluid(flagField[idxinv])){          //If the inverse cell is fluid
-                                collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i];
-                            }
+                    if(is_valid(xinv, yinv, zinv, dim) && is_fluid(flagField[idxinv])){ //If the inverse cell is in the boundary or the domain
+                        if (is_noslip(f)){
+                            collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i];
+                        }
+                        else if (is_inflow(f)){
+                            computeDensity(&collideField_f[Q*idxinv], &density); //Density of the inverse cell
+                            inner = LATTICEVELOCITIES[i][0]*wallVelocity[0] + LATTICEVELOCITIES[i][1]*wallVelocity[1] 
+                            + LATTICEVELOCITIES[i][2]*wallVelocity[2]; // dot_product(ci, Uwall)
+                            
+                            collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i] + 2.0*LATTICEWEIGHTS[i]*density*inner/C_S/C_S;
+                            
+                        }
+                        else if (is_freeslip(f)){
+                        collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i];
                         }
                     }
-                    break;
-                    
-                    case 2: // Moving Wall
-                    for(int i = 0; i < Q; i++) {
-                        //Define inverse block
-                        xinv = x + LATTICEVELOCITIES[i][0];
-                        yinv = y + LATTICEVELOCITIES[i][1];
-                        zinv = z + LATTICEVELOCITIES[i][2];
-                        
-                        if(is_valid(xinv, yinv, zinv, dim)){ //If the inverse cell is in the boundary or the domain
-                            idxinv = zinv*xlyl + yinv*(xl) + xinv;
-                            if (is_fluid(flagField[idxinv])){          //If the inverse cell is fluid
-                                
-                                computeDensity(&collideField_f[Q*idxinv], &density); //Density of the inverse cell
-                                inner = LATTICEVELOCITIES[i][0]*wallVelocity[0] + LATTICEVELOCITIES[i][1]*wallVelocity[1] 
-                                        + LATTICEVELOCITIES[i][2]*wallVelocity[2]; // dot_product(ci, Uwall)
-                                
-                                collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i] + 2.0*LATTICEWEIGHTS[i]*density*inner/C_S/C_S;
-                            }
-                        }
-                    }
-                    break;
-                    
                 }
                 
+                
+                
             }
+            
         }
     }
     
@@ -130,63 +106,48 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                 idx = z*xlyl + y*(xl) + x;
                 
                 f = flagField[idx];
-                switch (f){
+                
+                for(int i = 0; i < Q; i++) {
+                    //Define inverse block
+                    xinv = x + LATTICEVELOCITIES[i][0];
+                    yinv = y + LATTICEVELOCITIES[i][1];
+                    zinv = z + LATTICEVELOCITIES[i][2];
+                    idxinv = zinv*xlyl + yinv*(xl) + xinv;
                     
-                    case 1: // No Slip
-                    for(int i = 0; i < Q; i++) {
-                        //Define inverse block
-                        xinv = x + LATTICEVELOCITIES[i][0];
-                        yinv = y + LATTICEVELOCITIES[i][1];
-                        zinv = z + LATTICEVELOCITIES[i][2];
-                        
-                        if(is_valid(xinv, yinv, zinv, dim)){ //If the inverse cell is in the boundary or the domain
-                            idxinv = zinv*xlyl + yinv*(xl) + xinv;
-                            if (is_fluid(flagField[idxinv])){          //If the inverse cell is fluid
-                                collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i];
-                            }
+                    if(is_valid(xinv, yinv, zinv, dim) && is_fluid(flagField[idxinv])){ //If the inverse cell is in the boundary or the domain
+                        if (is_noslip(f)){
+                            collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i];
+                        }
+                        else if (is_inflow(f)){
+                            computeDensity(&collideField_f[Q*idxinv], &density); //Density of the inverse cell
+                            inner = LATTICEVELOCITIES[i][0]*wallVelocity[0] + LATTICEVELOCITIES[i][1]*wallVelocity[1] 
+                            + LATTICEVELOCITIES[i][2]*wallVelocity[2]; // dot_product(ci, Uwall)
+                            
+                            collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i] + 2.0*LATTICEWEIGHTS[i]*density*inner/C_S/C_S;
+                            
+                        }
+                        else if (is_freeslip(f)){
+                        collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i];
                         }
                     }
-                    break;
-                    
-                    case 2: // Moving Wall
-                    for(int i = 0; i < Q; i++) {
-                        //Define inverse block
-                        xinv = x + LATTICEVELOCITIES[i][0];
-                        yinv = y + LATTICEVELOCITIES[i][1];
-                        zinv = z + LATTICEVELOCITIES[i][2];
-                        
-                        if(is_valid(xinv, yinv, zinv, dim)){ //If the inverse cell is in the boundary or the domain
-                            idxinv = zinv*xlyl + yinv*(xl) + xinv;
-                            if (is_fluid(flagField[idxinv])){          //If the inverse cell is fluid
-                                
-                                computeDensity(&collideField_f[Q*idxinv], &density); //Density of the inverse cell
-                                inner = LATTICEVELOCITIES[i][0]*wallVelocity[0] + LATTICEVELOCITIES[i][1]*wallVelocity[1] 
-                                        + LATTICEVELOCITIES[i][2]*wallVelocity[2]; // dot_product(ci, Uwall)
-                                
-                                collideField_f[Q*idx+i] = collideField_f[Q*idxinv+18-i] + 2.0*LATTICEWEIGHTS[i]*density*inner/C_S/C_S;
-                            }
-                        }
-                    }
-                    break;
-                    
                 }
                 
+                
+                
             }
+            
         }
     }
+    
     
     // Temperature Boundary Conditions
     for(z = 0; z <= dim.zlen + 1; z++ ){
         for(y = 0; y <= dim.ylen + 1; y++) {
             for(x = 0; x <= dim.xlen + 1; x++) {
+                idx = z*xlyl + y*(xl) + x;
                 
-                switch (f){
-                    
-                    case 3: // Neumann T
-                    break;
-                    
-                    case 4: // Dirichlet
-                    idx = z*xlyl + y*xl + x;
+                f = flagField[idx];
+                if (is_dirichl(f)){
                     get_sum_of_weights(x, y, z, dim, flagField, &weight_sum);               //Denominator of Gc expression
                     computeDensity(&collideField_f[Q*idx], &density);       //Density of current cell
                     get_Boundary_Temperature(x, y, z, &T_d);                //Dirichlet Temperature of current cell
@@ -201,14 +162,12 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                         zinv = z + LATTICEVELOCITIES[i][2];
                         
                         idxinv = zinv*xlyl + yinv*(xl) + xinv;
-                        if (flagField[idxinv]!= FLUID){          //If the inverse cell is not fluid
+                        if (is_fluid(flagField[idxinv])){          //If the inverse cell is not fluid
                             collideField_g[i] = LATTICEWEIGHTS[i]*Gc;
                         }
                     }
-                    
-                    break;
-                    
                 }
+                    
             }
         }
     }
@@ -228,8 +187,8 @@ void get_sum_of_weights(int x, int y, int z, dimensions dim, unsigned int* flagF
         zinv = z + LATTICEVELOCITIES[i][2];
         
         idxinv = zinv*xlyl + yinv*(xl) + xinv;
-        if (flagField[idxinv]!= FLUID){          //If the inverse cell is not fluid
-                (*weight_sum) += LATTICEWEIGHTS[i];
+        if (is_fluid(flagField[idxinv])){           //If the inverse cell is not fluid
+            (*weight_sum) += LATTICEWEIGHTS[i];
         }
         
     }

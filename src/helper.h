@@ -623,9 +623,7 @@ static inline int is_outflow(int flag){return ((flag&IS_OUTFLOW_BIT)!=0);}
 static inline int is_adiabatic(int flag){return ((flag&IS_NEUMANN_T_BIT)!=0);}
 static inline int is_coldwall(int flag){return ((flag&IS_COLD_WALL)!=0);}
 static inline int is_warmwall(int flag){return ((flag&IS_WARM_WALL)!=0);}
-
-
-
+static inline int is_dirichl(int flag){return ((flag&IS_DIRICHL_T_BIT)!=0);}
 
 #endif     
 

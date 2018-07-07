@@ -1,6 +1,7 @@
 #include "collision.h"
 #include "LBDefinitions.h"
 #include <stdio.h>
+#include "helper.h"
 
 void computePostCollisionDistribution(double *currentCell_f, double *currentCell_g, const double * const tau_f, const double * const tau_g,
 		const double *const feq, const double * const geq, double* F_b){

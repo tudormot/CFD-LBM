@@ -41,8 +41,6 @@ static const int D0 = 3;
 #define NO_OF_DIMENSIONS (3)
 #define NO_OF_LATTICE_DIMENSIONS (19)
 
-static const int FLUID = 0;
-
 typedef struct{
 	int xlen;
 	int ylen;
