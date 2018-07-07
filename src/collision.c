@@ -29,7 +29,6 @@ void doCollision(double *collideField_f, double *collideField_g, unsigned int *f
     double F_b[Q];
 	int xl = dim.xlen +2;
 	int xlyl = xl*(dim.ylen+2);
-	int k =0;
 
 
 	for(int z=1; z <= dim.zlen; ++z)
@@ -46,15 +45,6 @@ void doCollision(double *collideField_f, double *collideField_g, unsigned int *f
 					vel[3*(z*xlyl + y*xl + x) + 1] = velocity[1];
 					vel[3*(z*xlyl + y*xl + x) + 2] = velocity[2];
 					currentCell_g = &collideField_g[Q*(z*xlyl + y*xl + x)];
-				/*   		if(isnan(collideField_g[i])){
-							printf("i: %d, k: %d\n",i,k);
-							char c;
-							c = getchar();
-							printf("%c\n", c);}
-
-
-					}**/
-					++k;
 					computeTemperature(currentCell_g, &density, &Temp);
 					Temps[z*xlyl + y*xl + x] = Temp; //check index
 
