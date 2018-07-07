@@ -1,5 +1,7 @@
 #include "computeCellValues.h"
 #include "LBDefinitions.h"
+#include <stdio.h>
+#include <math.h>
 
 void computeDensity(const double *const currentCell, double *density){
   
@@ -37,6 +39,8 @@ void computeTemperature(const double * const currentCell, const double * const d
 	for(int i = 0; i < Q; ++i){
 		(*Temp) += currentCell[i];
 	}
+
+
     
     (*Temp) /= (*density);
 

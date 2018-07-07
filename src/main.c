@@ -31,7 +31,7 @@ int main(int argc, char *argv[]){
     printf("\nSIMULATION PARAMETERS:\n\n");
 
     readParameters(&dim, &tau_f, &tau_g, &T_cold, &T_warm, velocityWall, &timesteps, &timestepsPerPlotting, argc, argv, &filename);
-
+    printf("tau_g from MAIN: %f\n", tau_g);
     
     /*remove old results*/
     system("rm -rf Output");
@@ -67,13 +67,12 @@ int main(int argc, char *argv[]){
         collideField_g = streamField_g;
         streamField_f = swap_f;
         streamField_g = swap_g;
-        
         /*collide*/
         doCollision(collideField_f, collideField_g, flagField, &tau_f, &tau_g, dim, Vels, Temps);
-        
+
         /*apply boundary conditions*/
         treatBoundary(collideField_f, collideField_g, flagField, velocityWall, dim, T_cold, T_warm);
-        
+
         /*write output and print progress to console*/
         if (t%timestepsPerPlotting==0){
             writeVtkOutput(Vels, Temps, flagField, argv[0], t, dim);

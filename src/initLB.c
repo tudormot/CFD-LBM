@@ -23,7 +23,7 @@ int readParameters(dimensions * dim, double *tau_f, double *tau_g, double *T_col
 	read_int( argv[1], "ylength", &(dim->ylen));
 	read_int( argv[1], "zlength", &(dim->zlen));
 	read_double( argv[1], "tau_f", tau_f);
-	read_double( argv[1], "tau_g", tau_f);
+	read_double( argv[1], "tau_g", tau_g);
 	read_double( argv[1], "T_cold", T_cold);
 	read_double( argv[1], "T_warm", T_warm);
 	read_double( argv[1], "xvelocityWall", &velocityWall[0]);
