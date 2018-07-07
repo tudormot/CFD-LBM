@@ -261,8 +261,7 @@ void get_Boundary_Temperature(int f, double* T_d, double T_cold, double T_warm){
     else if(is_warmwall(f))
     *T_d = T_warm;
     else{
-    	//printf("WARNING: Neither cold nor warm temperature has been assigned to T_d. Assigning 0\n ");
-    	*T_d = 0;
+    	printf("ERROR:this should never happen(get_Boundary_Temperature)\n");
     }
     
 }
@@ -272,6 +271,5 @@ int look_up_vel(int dx, int dy, int dz){
     for (int i=0; i<Q; i++){
         if(dx==LATTICEVELOCITIES[i][0] && dy==LATTICEVELOCITIES[i][1] && dz==LATTICEVELOCITIES[i][2]) return i;
     }
-    printf("DIDNT WOOOOOORK");
     return -1;
 }
