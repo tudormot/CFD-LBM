@@ -90,8 +90,8 @@ static void specialInitFlags_NaturalConvection(unsigned int * flagField,dimensio
 	for(int k = 0;k<=dim.zlen+1;k++)
 		for(int i = 0;i<=dim.xlen+1;i++)
 		{
-			flagField[k*xlyl + i] = IS_FREESLIP_BIT | IS_NEUMANN_T_BIT;
-			flagField[k*xlyl+(dim.ylen+1)*xl + i] = IS_FREESLIP_BIT | IS_NEUMANN_T_BIT;
+			flagField[k*xlyl + i] = IS_NOSLIP_BIT | IS_NEUMANN_T_BIT;
+			flagField[k*xlyl+(dim.ylen+1)*xl + i] = IS_NOSLIP_BIT | IS_NEUMANN_T_BIT;
 		}
 
 	/*setting opposite lateral faces of the cube with the heated walls and no slip velocity conditions*/
@@ -119,8 +119,8 @@ static void specialInitFlags_Cavity(unsigned int * flagField,dimensions dim)
 	for(int k = 0;k<=dim.zlen+1;k++)
 		for(int i = 0;i<=dim.xlen+1;i++)
 		{
-			flagField[k*xlyl + i] = IS_NOSLIP_BIT | IS_NEUMANN_T_BIT;
-			flagField[k*xlyl+(dim.ylen+1)*xl + i] = IS_NOSLIP_BIT | IS_NEUMANN_T_BIT;
+			flagField[k*xlyl + i] = IS_FREESLIP_BIT | IS_NEUMANN_T_BIT;
+			flagField[k*xlyl+(dim.ylen+1)*xl + i] = IS_FREESLIP_BIT | IS_NEUMANN_T_BIT;
 		}
 
 	/*setting opposite lateral faces of the cube which are adiabatic and no slip*/

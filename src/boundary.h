@@ -9,4 +9,6 @@ void get_sum_of_weights(int x, int y, int z, dimensions d, unsigned int* flagFie
 
 void get_Boundary_Temperature(int flag, double* T_d, double T_cold, double T_warm);
 
+int look_up_vel(int dx, int dy, int dz);
+
 #endif
