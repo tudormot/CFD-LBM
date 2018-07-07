@@ -7,9 +7,9 @@ int is_valid(int x, int y, int z, dimensions dim){
     return (x >= 0) && (x <= dim.xlen + 1) && (y >= 0) && (y <= dim.ylen + 1) && (z >= 0) && (z <= dim.zlen + 1);
 }
 
-void treatBoundary(double *collideField_f, double *collideField_g, unsigned int* flagField, const double * const wallVelocity, dimensions dim, double T_cold, double T_warm){
+void treatBoundary(double *collideField_f, double *collideField_g, unsigned int* flagField, double *Temps, const double * const wallVelocity, dimensions dim, double T_cold, double T_warm){
     
-    int x, y, z, xinv, yinv, zinv, idx, idxinv, f, dx, dy, dz, i_sym;
+    int x, y, z, xinv, yinv, zinv, idx, idxinv, f, dx, dy, dz, i_sym, idx1;
     int Q = 19;
     int xl = dim.xlen + 2;
     int xlyl = (xl)*(dim.ylen+2);
@@ -194,8 +194,26 @@ void treatBoundary(double *collideField_f, double *collideField_g, unsigned int*
                     get_sum_of_weights(x, y, z, dim, flagField, &weight_sum);               //Denominator of Gc expression
                     computeDensity(&collideField_f[Q*idx], &density);       //Density of current cell
                     
-                    T_d = 0.0;
-                    computeTemperature(&collideField_g[Q*idx], &density, &T_local);   //Actual Temperature of current cell
+                    if (x==1){
+                        idx1 = z*xlyl + y*xl + x + 1;
+                    }
+                    else if (y==1){
+                        idx1 = z*xlyl + (y+1)*xl + x;
+                    }
+                    else if (z==1){
+                        idx1 = (z+1)*xlyl + y*xl + x;
+                    }
+                    else if (x==dim.xlen){
+                        idx1 = z*xlyl + y*xl + x - 1;
+                    }
+                    else if (y==dim.ylen){
+                        idx1 = z*xlyl + (y-1)*xl + x;
+                    }
+                    else if (z==dim.zlen){
+                        idx1 = (z-1)*xlyl + y*xl + x;
+                    }
+                    
+                    T_local = Temps[idx1];
                     Gc = density*(T_d-T_local)/weight_sum;
 
                     for(int i = 0; i < Q; i++) {
