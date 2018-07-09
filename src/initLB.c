@@ -51,10 +51,6 @@ void initialiseFields(double *collideField_f, double *streamField_f,double *coll
 				{
 					collideField_f[NO_OF_LATTICE_DIMENSIONS*(i*xlyl + j*xl + k) + l]=LATTICEWEIGHTS[l];
 					streamField_f[NO_OF_LATTICE_DIMENSIONS*(i*xlyl + j*xl + k) + l]=LATTICEWEIGHTS[l];
-					/*see document ../things_we_are_unsure.txt to why we are initialising g fields to 0: */
-					{
-						//actually there is no need to initialise g fields to 0 as they are initialised by calloc
-					}
 				}
 			}
 
