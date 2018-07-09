@@ -31,7 +31,6 @@ int main(int argc, char *argv[]){
     printf("\nSIMULATION PARAMETERS:\n\n");
 
     readParameters(&dim, &tau_f, &tau_g, &T_cold, &T_warm, &beta, &gravity, velocityWall, &timesteps, &timestepsPerPlotting, argc, argv, &filename);
-    printf("\n --------------------->beta: %f,  gravity: %f \n", beta, gravity);
     
     /*remove old results*/
     system("rm -rf Output");
