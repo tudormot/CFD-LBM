@@ -8,7 +8,7 @@ static void specialInitFlags_Cavity(unsigned int * flagField,dimensions dim);
 
 
 
-int readParameters(dimensions * dim, double *tau_f, double *tau_g, double *T_cold, double *T_warm, double *velocityWall, unsigned int *timesteps, unsigned int *timestepsPerPlotting, int argc, char *argv[], char **filename){
+int readParameters(dimensions * dim, double *tau_f, double *tau_g, double *T_cold, double *T_warm, double *beta, double *gravity, double *velocityWall, unsigned int *timesteps, unsigned int *timestepsPerPlotting, int argc, char *argv[], char **filename){
 
 	/* check that there is only one command line parameter */
 	if(argc !=2)
@@ -25,6 +25,8 @@ int readParameters(dimensions * dim, double *tau_f, double *tau_g, double *T_col
 	read_double( argv[1], "tau_g", tau_g);
 	read_double( argv[1], "T_cold", T_cold);
 	read_double( argv[1], "T_warm", T_warm);
+	read_double( argv[1], "beta", beta);
+	read_double( argv[1], "gravity", gravity);
 	read_double( argv[1], "xvelocityWall", &velocityWall[0]);
 	read_double( argv[1], "yvelocityWall", &velocityWall[1]);
 	read_double( argv[1], "zvelocityWall", &velocityWall[2]);
