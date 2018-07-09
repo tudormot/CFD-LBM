@@ -1,8 +1,8 @@
 ========================================================================================================
 
-CFD-LAB
-SUMMER TERM 2018
-GROUP H
+**CFD-LAB**
+**SUMMER TERM 2018**
+**GROUP H**
 
 ========================================================================================================
 
@@ -39,26 +39,26 @@ vector for each scenario is completed by a specialized function.
     - The Driven Cavity scenario has one moving wall in the upper z-face, free-slip conditions in the y-faces and 
       no-slip conditions on the x-faces and the bottom z-face.
     - The velocity boundary conditions are free-slip in the y-faces and no-slip on the rest. The temperature boundary 
-      conditions are Dirchlet to the x-faces and adiabatic for the rest.
+      conditions are Dirichlet to the x-faces and adiabatic for the rest.
       
-In both cases the velocity boundary conditions for the y-faces are set to free-slip to be able to compare with 2D simulations on the
-x-z plane.
+In both cases the velocity boundary conditions for the y-faces are set to free-slip to be able to compare with 2D simulations 
+on the x-z plane.
 
-The two scenarios which can be parametrized by modification of .dat files. The addition of Heat Transfer introduced a new dimensionless
-relaxation time for the particle energy distribution function, which controls the rates of approaching the equilibrium of this distri-
-bution. To differentiate between the relaxation times we denote as 'tau_f' the one for density distribution and 'tau_g' for energy
-distribution.
+The two scenarios which can be parametrized by modification of .dat files. The addition of Heat Transfer introduced a new 
+dimensionless relaxation time for the particle energy distribution function, which controls the rates of approaching the 
+equilibrium of this distribution. To differentiate between the relaxation times we denote as 'tau_f' the one for density 
+distribution and 'tau_g' for energy distribution.
 
-The sign of the gravity value in the .dat files is positive because it contains the direction of the buoyancy force applied to the 
-particles. The buoyancy terms are modeled with the Boussinesq approximation, assuming linear dependency on the temperature given by the
-thermal expansion coefficient noted by 'beta'.
+The sign of the gravity value in the .dat files is positive because it contains the direction of the buoyancy force applied 
+to the particles. The buoyancy terms are modeled with the Boussinesq approximation, assuming linear dependency on the 
+temperature given by the thermal expansion coefficient noted by 'beta'.
 
-All the model implementation was developed from the assumption for the grid and stepsizes both being equal to one. The length chosen
-in the .dat files for the domain will correspond to the number of cells used.
+All the model implementation was developed from the assumption for the grid and stepsizes both being equal to one. 
+The length chosen in the .dat files for the domain will correspond to the number of cells used.
 
 ========================================================================================================
 
-CODE USAGE
+**CODE USAGE**
 
 - Building the code with the Makefile creates the lbsim executable.
 - There are two possible scenarios:
@@ -69,8 +69,10 @@ CODE USAGE
     - Natural Convection: 
         - One can modify its parameters in convection.dat.
         - To run:   ./lbsim convection.dat
+        
+========================================================================================================
 
-OUTPUT FOLDERS
+**OUTPUT FOLDERS**
 
 - Each simulation is creating an output folder for .vtk files.
 - The name of the folder is the name of the scenario.
