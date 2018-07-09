@@ -1,3 +1,0 @@
-Boundary Conditions of T
-Add gravity
-Initialise Flags

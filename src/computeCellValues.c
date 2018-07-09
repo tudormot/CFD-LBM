@@ -34,7 +34,7 @@ void computeTemperature(const double * const currentCell, const double * const d
   
     int Q = NO_OF_LATTICE_DIMENSIONS;
     
-	(*Temp) = 0; // reset density, before summing for each cell
+	(*Temp) = 0; // reset temperature, before summing for each cell
 
 	for(int i = 0; i < Q; ++i){
 		(*Temp) += currentCell[i];
@@ -68,6 +68,8 @@ void computeFeq(const double * const density, const double * const velocity, dou
 void computeGeq(const double * const feq, double* Temp, double *geq){
 
 		for(int i = 0; i < NO_OF_LATTICE_DIMENSIONS; ++i )
-			geq[i] = (*Temp)*feq[i]; //reusing feq for efficiency
+
+			geq[i] = (*Temp)*feq[i];
+
 }
 

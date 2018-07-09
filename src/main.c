@@ -67,6 +67,7 @@ int main(int argc, char *argv[]){
         collideField_g = streamField_g;
         streamField_f = swap_f;
         streamField_g = swap_g;
+        
         /*collide*/
         doCollision(collideField_f, collideField_g, flagField, &tau_f, &tau_g, dim, Vels, Temps, beta, T_cold, T_warm, gravity);
 
