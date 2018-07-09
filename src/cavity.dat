@@ -11,7 +11,7 @@ zlength     50
 timesteps	100
 
 #--------------------------------------------
-# relaxation time [0.5, 2.0]    tau_f -> f distribution;   tau_g -> g distribution (heat transfer)
+# relaxation time [0.5, 2.0]
 #--------------------------------------------
 tau_f	 	1.9
 tau_g		1.0		
@@ -22,7 +22,7 @@ tau_g		1.0
 timestepsPerPlotting	5
 
 #--------------------------------------------
-#       boundary conditions - velocities
+#       boundary conditions
 #--------------------------------------------
 xvelocityWall	0.1
 yvelocityWall	0.0
