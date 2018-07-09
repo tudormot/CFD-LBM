@@ -503,3 +503,29 @@ int **read_pgm(const char *filename)
     
     return pic;
 }
+
+void remove_old_folder(char* filename){
+    
+    char* buffer = (char*) malloc(256*sizeof(char));
+    buffer[0] = 0x00;
+    
+    strcat(buffer, "rm -rf ");
+    int i = 0;
+    while (filename[i]!='.'){
+        buffer[7+i] = filename[i];
+        i++;
+    }
+    buffer[7+i] = 0x00;
+    filename[i] = 0x00;
+    system(buffer);
+    
+    buffer[0] = 0x00;
+    
+    strcat(buffer, "mkdir ");
+    strcat(buffer, filename);
+    system(buffer);
+    
+    printf("\n");
+    
+}
+

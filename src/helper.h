@@ -625,5 +625,7 @@ static inline int is_coldwall(int flag){return ((flag&IS_COLD_WALL)!=0);}
 static inline int is_warmwall(int flag){return ((flag&IS_WARM_WALL)!=0);}
 static inline int is_dirichl(int flag){return ((flag&IS_DIRICHL_T_BIT)!=0);}
 
+void remove_old_folder(char* filename);
+
 #endif     
 

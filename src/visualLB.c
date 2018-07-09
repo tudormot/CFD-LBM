@@ -16,7 +16,8 @@ void writeVtkOutput(const double* const Vels, const double* const Temps, const u
     // Open File
     char szFileName[256];
     FILE *fp=NULL;
-    sprintf( szFileName, "Output/Out_%i.vtk", t);
+    
+    sprintf( szFileName, "%s/Out_%i.vtk", filename, t);
     fp = fopen( szFileName, "w");
     if( fp == NULL ){
         char szBuff[256];

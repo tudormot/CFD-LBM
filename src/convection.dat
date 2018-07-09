@@ -11,7 +11,7 @@ zlength     50
 timesteps	1000
 
 #--------------------------------------------
-#          	relaxation time [0.5, 2.0]
+# relaxation time [0.5, 2.0]    tau_f -> f distribution;   tau_g -> g distribution (heat transfer)
 #--------------------------------------------
 tau_f	 	1.9
 tau_g		1.0		
@@ -29,7 +29,7 @@ yvelocityWall	0.0
 zvelocityWall	0.0
 
 #--------------------------------------------
-#       boundary condition - Dirichlet temps
+#       boundary condition - Dirichlet temperatures
 #--------------------------------------------
 T_cold	-10.0
 T_warm	10.0
