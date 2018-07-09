@@ -1,10 +1,19 @@
+========================================================================================================
+
 CFD-LAB
 SUMMER TERM 2018
 GROUP H
 
+========================================================================================================
+
 **LATTICE BOLTZMANN SIMULATION WITH HEAT TRANSFER**
 
-Simulation of two scenarios following the Lattice Boltzmann Method, taking the BGK approximation for the collision operator.
+The Heat Transfer implementation followed the procedure proposed by Chih-Hao et al. in "Thermal boun-
+dary conditions for thermal lattice Boltzmann simulations"
+
+========================================================================================================
+
+CODE USAGE
 
 - Building the code with the Makefile creates the lbsim executable.
 - There are two possible scenarios:
@@ -19,10 +28,13 @@ Simulation of two scenarios following the Lattice Boltzmann Method, taking the B
         - Also a 3D scenario. The velocity boundary conditions are free-slip in the y-faces 
           and no-slip on the rest. The temperature boundary conditions are Dirchlet to the 
           x-faces and adiabatic for the rest.
+        - One can modify its parameters in convection.dat.
         - To run:   ./lbsim convection.dat
 
+OUTPUT FOLDERS
 
-2.2. Output folders
-- Each simulation is creating and output folder for .vtk files.
-- Output folder's name consists of chosen scenario and content of "problem" variable.
-- Output folders do NOT have to be cleaned, removed or manually created before any simulation.
+- Each simulation is creating an output folder for .vtk files.
+- The name of the folder is the name of the scenario.
+- The output folder do NOT have to be cleaned, removed or manually created before any simulation.
+
+========================================================================================================

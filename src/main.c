@@ -32,11 +32,6 @@ int main(int argc, char *argv[]){
 
     readParameters(&dim, &tau_f, &tau_g, &T_cold, &T_warm, &beta, &gravity, velocityWall, &timesteps, &timestepsPerPlotting, argc, argv, &filename);
     
-    /*remove old results*/
-    system("rm -rf Output");
-    system("mkdir Output");
-    printf("\n");
-    
     /*memory allocation of required arrays*/
     int size = (dim.xlen+2) * (dim.ylen+2) * (dim.zlen+2);
     collideField_f = (double*) calloc(size * NO_OF_LATTICE_DIMENSIONS, sizeof(double));
@@ -52,6 +47,7 @@ int main(int argc, char *argv[]){
     treatBoundary(collideField_f, collideField_g, flagField, Temps, velocityWall, dim, T_cold, T_warm);
     
     /*now start the calculation: */
+    remove_old_folder(filename);
     printf("=================================================================\n");
     printf("\nCOMPUTING...\n\n");
     for(int t = 1; t <= timesteps; t++){
@@ -75,7 +71,7 @@ int main(int argc, char *argv[]){
 
         /*write output and print progress to console*/
         if (t%timestepsPerPlotting==0){
-            writeVtkOutput(Vels, Temps, flagField, argv[0], t, dim);
+            writeVtkOutput(Vels, Temps, flagField, filename, t, dim);
             printf("t = %4d/%d (%.1f%% completed)\n", t, timesteps, 100.0*t/timesteps);
         }
     }
