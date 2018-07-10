@@ -23,6 +23,9 @@ char **filename                      /* initialised inside this function to argv
 
 
 /* initialises the particle distribution functions and the flagfield */
+/* This function initialises the density fields as specified in worksheet 2.
+ * It also initialises the flag field with the help of "special initialise functions,
+ * which are chosen based on command line input"*/
 void initialiseFields(double *collideField_f, double *streamField_f,double *collideField_g,
 		double *streamField_g, unsigned int *flagField, dimensions dim,
 		const double * const wallVelocity,const char * const filename);

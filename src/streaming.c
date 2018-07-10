@@ -1,6 +1,8 @@
 #include "streaming.h"
 #include "LBDefinitions.h"
 
+/* streaming step as detailed in worksheet 2. The function moves cell values from source cell to destination cell,
+ * based on the lattice velocities directions*/
 void doStreaming(double *collideField_f, double *streamField_f,double * collideField_g, double * streamField_g,unsigned int *flagField,dimensions dim){
 
 	int x_dest, y_dest, z_dest; //coordinates of destination cell
