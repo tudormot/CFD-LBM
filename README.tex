@@ -1,0 +1,179 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+\begin{document}
+
+
+\title{Lattice Boltzmann Simulation With Heat Transfer}
+
+\author{CFD-Lab\\Group H} \date{Summer Term 2018}
+
+\maketitle
+
+\textbf{Introduction}
+
+The code consists of the implementation of the Lattice Boltzmann Method
+for 3D simulations of weakly compressible flows. LBM has its origins in
+statistical mechanics. In this approach, one solves the Boltzmann
+equation for the particle distribution function. This function describes
+the probability of finding fluid molecules in a specific part of space,
+and having a specific velocity. Then, the macroscopic variables such as
+velocity and pressure are obtained by evaluating the hydrodynamic
+moments of the particle distribution function. This is done by
+integrating the distribution over the velocity space.
+
+The Boltzmann equation considers a collision operator, which is a second
+order differential operator representing the effect of intermolecular
+collisions within the fluid. This collision operator has been linearized
+with the BGK approximation.
+
+The D3Q19 model for the velocity vectors in the 3D space.
+
+The code offers the possibility to run two different scenarios. The
+scenarios are: Driven Cavity and Natural Convection.
+
+The Driven Cavity implementation followed the procedure in the Worksheet
+2 from previous terms in the CFD-Lab course.
+
+The implementation of Heat Transfer in the simulation for the Natural
+Convection scenario followed the procedure proposed by Chih-Hao et al.
+in ``Thermal boundary conditions for thermal lattice Boltzmann
+simulations''.
+
+In this approach one considers additionally from the particle density
+distribution function, a particle energy distribution function, which
+has the same D3Q19 velocity scheme. This distribution follows the same
+streaming an collision steps as the particle density distribution
+function. The computation of the temperature can be obtained in a
+similar form as the density, with discrete analogs of integral
+expressions of the particle energy distribution function.
+
+The geometry of the domain and the information about boundary types is
+stored in a Flag vector. The initialization of the Flag vector for each
+scenario is completed by a specialized function. - The Driven Cavity
+scenario has one moving wall in the upper z-face, free-slip conditions
+in the y-faces and no-slip conditions on the x-faces and the bottom
+z-face. - The velocity boundary conditions are free-slip in the y-faces
+and no-slip on the rest. The temperature boundary conditions are
+Dirichlet to the x-faces and adiabatic for the rest.
+
+In both cases the velocity boundary conditions for the y-faces are set
+to free-slip to be able to compare with 2D simulations on the x-z plane.
+
+The two scenarios which can be parametrized by modification of .dat
+files. The addition of Heat Transfer introduced a new dimensionless
+relaxation time for the particle energy distribution function, which
+controls the rates of approaching the equilibrium of this distribution.
+To differentiate between the relaxation times we denote as `tau\_f' the
+one for density distribution and `tau\_g' for energy distribution.
+
+The sign of the gravity value in the .dat files is positive because it
+contains the direction of the buoyancy force applied to the particles.
+The buoyancy terms are modeled with the Boussinesq approximation,
+assuming linear dependency on the temperature given by the thermal
+expansion coefficient noted by `beta'.
+
+All the model implementation was developed from the assumption for the
+grid and stepsizes both being equal to one. The length chosen in the
+.dat files for the domain will correspond to the number of cells used.
+
+
+
+\textbf{Code Usage}
+
+\begin{itemize}
+\tightlist
+\item
+  Building the code with the Makefile creates the lbsim executable.
+\item
+  There are two possible scenarios:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Driven Cavity:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      One can modify its parameters in cavity.dat.
+    \item
+      To run: ./lbsim cavity.dat
+    \end{itemize}
+  \item
+    Natural Convection:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      One can modify its parameters in convection.dat.
+    \item
+      To run: ./lbsim convection.dat
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+
+
+\textbf{OUTPUT FOLDERS}
+
+\begin{itemize}
+\tightlist
+\item
+  Each simulation is creating an output folder for .vtk files.
+\item
+  The name of the folder is the name of the scenario.
+\item
+  The output folder do NOT have to be cleaned, removed or manually
+  created before any simulation.
+\end{itemize}
+
+
+
+
+\end{document}
