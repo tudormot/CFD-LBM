@@ -34,8 +34,10 @@ int main(int argc, char *argv[]){
     
     /*memory allocation of required arrays*/
     int size = (dim.xlen+2) * (dim.ylen+2) * (dim.zlen+2);
+    	/*density fields:*/
     collideField_f = (double*) calloc(size * NO_OF_LATTICE_DIMENSIONS, sizeof(double));
     streamField_f = (double*) calloc( size * NO_OF_LATTICE_DIMENSIONS, sizeof(double));
+    	/*energy fields*/
     collideField_g = (double*) calloc(size * NO_OF_LATTICE_DIMENSIONS, sizeof(double));
     streamField_g = (double*) calloc( size * NO_OF_LATTICE_DIMENSIONS, sizeof(double));
     flagField = (unsigned int*) calloc(size,sizeof(int));
@@ -56,6 +58,7 @@ int main(int argc, char *argv[]){
         double *swap_f=NULL;
         double *swap_g=NULL;
         doStreaming(collideField_f, streamField_f, collideField_g, streamField_g, flagField, dim);
+
         swap_f = collideField_f;
         swap_g = collideField_g;
         collideField_f = streamField_f;

@@ -36,7 +36,9 @@ int readParameters(dimensions * dim, double *tau_f, double *tau_g, double *T_col
   return 0;
 }
 
-
+/*This function initialises the density fields as specified in worksheet 2.
+ *It also initialises the flag field with the help of "special initialise functions,
+ *which are chosen based on command line input"*/
 void initialiseFields(double *collideField_f, double *streamField_f,double *collideField_g, double *streamField_g,  unsigned int *flagField, dimensions dim ,const double * const wallVelocity, const char * const filename){
 
     /* first initialise collideField and streamField: */
@@ -76,7 +78,7 @@ void initialiseFields(double *collideField_f, double *streamField_f,double *coll
 
 }
 
-
+/*specifies the type of boundaries via flagField for the Natural convection scenario*/
 static void specialInitFlags_NaturalConvection(unsigned int * flagField,dimensions dim)
 {
 	int xl = dim.xlen+2;           //variables used in the mapping between the spacial coordinates and the location in array
@@ -112,6 +114,7 @@ static void specialInitFlags_NaturalConvection(unsigned int * flagField,dimensio
 		}
 }
 
+/*specifies the type of boundaries via flagField for the Driven Cavity scenario*/
 static void specialInitFlags_Cavity(unsigned int * flagField,dimensions dim)
 {
 	int xl = dim.xlen+2;           //variables used in the mapping between the spacial coordinates and the location in array

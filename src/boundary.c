@@ -3,10 +3,16 @@
 #include "helper.h"
 #include "LBDefinitions.h"
 
+/*helper fun*/
 int is_valid(int x, int y, int z, dimensions dim){
     return (x >= 0) && (x <= dim.xlen + 1) && (y >= 0) && (y <= dim.ylen + 1) && (z >= 0) && (z <= dim.zlen + 1);
 }
 
+/* modifies values of boundary cells for both density and energy field.
+ * Theory used based on old CFD-worksheet2(for densityfield, both Neumann and Dirichlet) and
+ * Chih-Hao et al. in "Thermal boundary conditions for thermal lattice Boltzmann simulations"
+ * for energy field(both Neumann and Dirichlet).
+ * Function should be called at each timestep*/
 void treatBoundary(double *collideField_f, double *collideField_g, unsigned int* flagField, double *Temps, const double * const wallVelocity, dimensions dim, double T_cold, double T_warm){
     
     int x, y, z, xinv, yinv, zinv, idx, idxinv, f, dx, dy, dz, i_sym, idx1;
